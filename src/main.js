@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
 import App from './App.vue'

@@ -1,115 +1,68 @@
 [
+  { "html": "<h3 class=\"subtitle is-4\">Táborník</h3>" },
   [
     {
-      "label": "First Name",
-      "value": "fir",
-      "minLength": 4
+      "label": "Jméno",
+      "isRequired": true
     },
     {
-      "label": "Last Name",
-      "placeholder": "Last Name placeholder",
-      "minLength": 3
+      "label": "Příjmení",
+      "isRequired": true
+    }
+  ],
+  {
+    "label": "Rodné číslo",
+    "isRequired": true,
+    "help": "ve tvaru 123456/7890"
+  },
+  {
+    "label": "Bydliště",
+    "isRequired": true
+  },
+  { "html": "<br><h3 class=\"subtitle is-4\">Matka</h3>" },
+  [
+    {
+      "label": "Jméno",
+      "isRequired": true
+    },
+    {
+      "label": "Příjmení",
+      "isRequired": true
     }
   ],
   [
     {
-      "label": "Email",
-      "type": "email"
-    },
-    {
-      "label": "Phone Number",
+      "label": "Telefon",
       "type": "tel",
-      "isRequired": false
-    }
-  ],
-  {
-    "label": "Address",
-    "placeholder": "Address"
-  },
-  [
-    {
-      "label": "Zip",
-      "type": "number",
-      "placeholder": "Zip",
-      "showLabel": false
+      "isRequired": true
     },
     {
-      "label": "City",
-      "placeholder": "City",
-      "showLabel": false
+      "label": "E-mail",
+      "type": "email",
+      "isRequired": true
     }
   ],
-  {
-    "label": "Country",
-    "type": "select",
-    "iconLeft": "globe-americas",
-    "placeholder": "Select your option",
-    "options": [
-      "Afghanistan",
-      "Åland Islands",
-      "Albania",
-      "Algeria",
-      "...",
-      "Western Sahara",
-      {
-        "text": "Yemen",
-        "value": "YE"
-      },
-      {
-        "text": "Zambia",
-        "value": "ZB",
-        "selected": true
-      },
-      "Zimbabwe"
-    ]
-  },
+  { "html": "<br><h3 class=\"subtitle is-4\">Otec</h3>" },
   [
     {
-      "label": "Age",
-      "type": "number",
-      "min": 18,
-      "max": 99,
-      "help": "( >= 18 <= 99 )"
+      "label": "Jméno",
+      "isRequired": true
     },
     {
-      "label": "Password",
-      "type": "password",
-      "minLength": 5,
-      "maxLength": 10
+      "label": "Příjmení",
+      "isRequired": true
     }
   ],
-  {
-    "label": "Message",
-    "type": "textarea",
-    "isRequired": false
-  },
-  {
-    "label": "Checkbox",
-    "type": "checkbox",
-    "items": [
-      {
-        "text": "one",
-        "value": 1,
-        "checked": true
-      },
-      {
-        "text": "two",
-        "checked": true
-      },
-      "three"
-    ]
-  },
-  {
-    "label": "Radio",
-    "type": "radio",
-    "items": [
-      {
-        "text": "RadioOne",
-        "value": "Radio-One",
-        "checked": true
-      },
-      "RadioTwo",
-      "RadioThree"
-    ]
-  }
+  [
+    {
+      "label": "Telefon",
+      "type": "tel",
+      "isRequired": true
+    },
+    {
+      "label": "E-mail",
+      "type": "email",
+      "isRequired": true
+    }
+  ]
 ]
