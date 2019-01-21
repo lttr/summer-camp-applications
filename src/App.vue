@@ -2,11 +2,8 @@
   <div id="app">
     <div class="app-wrapper box">
       <Logo/>
-      <Heading title="Přihláška na tábor" subtitle="24. skautského oddílu"/>
-      <InitialText
-        text="Přihlašuji svého syna na letní stanový tábor 24. skautského oddílu ve Vranicích u Jarošova, který se koná
-        od soboty 29. června do neděle 14. července 2019."
-      />
+      <Heading :title="titulek" :subtitle="podtitulek"/>
+      <InitialText :text="uvodniText"/>
       <CampInfo/>
       <div class="form-wrapper">
         <FormJson
@@ -30,7 +27,7 @@ import "bulma/css/bulma.min.css";
 import "vue-form-json/dist/vue-form-json.css";
 import FormJson from "vue-form-json";
 import jsonFields from "@/assets/fields";
-import html2pdf from "html2pdf.js";
+import { config } from "./config.js";
 
 export default {
   name: "app",
@@ -42,24 +39,11 @@ export default {
     FormJson
   },
   data: () => ({
-    jsonFields
+    jsonFields,
+    ...config
   }),
   mounted() {
     this.$root.$on("formSubmitted", values => alert(JSON.stringify(values)));
-    const element = document.getElementById("app");
-    var opt = {
-      margin: 1,
-      filename: "myfile.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
-    };
-
-    // New Promise-based usage:
-    html2pdf()
-      .set(opt)
-      .from(element)
-      .save();
   }
 };
 </script>
