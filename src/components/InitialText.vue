@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div class="form-wrapper">
-      <p class="form-sized has-text-centered">{{ text }}</p>
-    </div>
+  <div class="section">
+    <p class="form-sized has-text-centered" v-html="text"></p>
   </div>
 </template>
 

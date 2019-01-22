@@ -1,45 +1,34 @@
 <template>
-  <div id="app">
-    <div class="app-wrapper box">
+  <div id="app" class="app box">
+    <div class="form-wrapper">
       <Logo/>
       <Heading :title="titulek" :subtitle="podtitulek"/>
       <InitialText :text="uvodniText"/>
       <CampInfo/>
-      <div class="form-wrapper">
-        <FormJson
-          :formFields="jsonFields"
-          formName="'applicationForm'"
-          mandatoryAsteriskLegend=" "
-          btnSubmitText="Odeslat přihlášku"
-          btnResetText=" "
-        />
-      </div>
+      <ApplicationForm/>
     </div>
   </div>
 </template>
 
 <script>
+import "bulma/css/bulma.min.css";
+import ApplicationForm from "./components/ApplicationForm.vue";
+import CampInfo from "./components/CampInfo.vue";
 import Heading from "./components/Heading.vue";
 import InitialText from "./components/InitialText.vue";
-import CampInfo from "./components/CampInfo.vue";
 import Logo from "./components/Logo.vue";
-import "bulma/css/bulma.min.css";
-import "vue-form-json/dist/vue-form-json.css";
-import FormJson from "vue-form-json";
-import jsonFields from "@/assets/fields";
 import { config } from "./config.js";
 
 export default {
   name: "app",
   components: {
-    Logo,
+    ApplicationForm,
+    CampInfo,
     Heading,
     InitialText,
-    CampInfo,
-    FormJson
+    Logo
   },
   data: () => ({
-    jsonFields,
     ...config
   }),
   mounted() {
@@ -49,16 +38,16 @@ export default {
 </script>
 
 <style>
-.form-wrapper {
-  display: flex;
-  justify-content: center;
-}
-/* .form-sized {
-  max-width: 50rem;
-} */
-.app-wrapper {
+.app {
   margin: 0 auto;
   max-width: 44rem;
   position: relative;
+}
+.form-wrapper {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+.section {
+  margin: 3rem 1.5rem;
 }
 </style>
