@@ -1,12 +1,12 @@
 <template>
-  <div id="app" class="app box">
-    <div class="form-wrapper">
+  <div id="app" class="box">
+    <main>
       <Logo/>
       <Heading :title="titulek" :subtitle="podtitulek"/>
       <InitialText :text="uvodniText"/>
       <CampInfo/>
       <ApplicationForm/>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -38,16 +38,17 @@ export default {
 </script>
 
 <style>
-.app {
+#app {
   margin: 0 auto;
   max-width: 44rem;
   position: relative;
 }
-.form-wrapper {
+main {
   max-width: 40rem;
   margin: 0 auto;
 }
-.section {
+
+section {
   margin: 3rem 1.5rem;
 }
 </style>

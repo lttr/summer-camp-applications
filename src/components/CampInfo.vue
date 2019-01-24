@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section>
     <div class="columns is-variable is-4 has-text-left">
       <div class="column is-narrow">
         <div class="box">
@@ -22,7 +22,8 @@
             <br>
             <span class="info-label">vedoucí tábora</span> Lukáš Trumm
             <br>
-            <span class="info-label">cena tábora</span> 2800,- Kč*
+            <span class="info-label">cena tábora</span>
+            {{ price }},- Kč*
           </div>
         </div>
       </div>
@@ -37,10 +38,12 @@ export default {
   name: "CampInfo",
   props: {
     title: String,
-    subtitle: String
+    subtitle: String,
+    sale: Boolean
   },
   data: () => ({
-    ...config
+    ...config,
+    price: 2800
   })
 };
 </script>

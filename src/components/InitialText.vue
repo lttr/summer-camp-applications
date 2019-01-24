@@ -1,7 +1,7 @@
 <template>
-  <div class="section">
-    <p class="form-sized has-text-centered" v-html="text"></p>
-  </div>
+  <section>
+    <p class="has-text-centered" v-html="text"></p>
+  </section>
 </template>
 
 <script>
@@ -12,13 +12,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.info {
-  font-style: normal;
-}
-.info-label {
-  width: 7em;
-  display: inline-block;
-}
-</style>
