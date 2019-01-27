@@ -5,4 +5,6 @@ module.exports.config = {
   termin: '29. 6. - 14. 7. 2019',
   podtitulek: '24. skautského oddílu',
   logo: 'SKAUT_logo.svg',
+  cena: 2800,
+  sleva: 100,
 }

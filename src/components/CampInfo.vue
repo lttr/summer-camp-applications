@@ -16,14 +16,14 @@
           <h3 class="title is-6">Údaje o táboru</h3>
           <div class="info">
             <span class="info-label">termín</span>
-            {{ termin }}
+            {{ term }}
             <br>
             <span class="info-label">místo konání</span> Vranice u Jarošova
             <br>
             <span class="info-label">vedoucí tábora</span> Lukáš Trumm
             <br>
             <span class="info-label">cena tábora</span>
-            {{ price }},- Kč*
+            {{ price }},- Kč
           </div>
         </div>
       </div>
@@ -32,19 +32,14 @@
 </template>
 
 <script>
-import { config } from "../config.js";
-
 export default {
   name: "CampInfo",
   props: {
     title: String,
     subtitle: String,
-    sale: Boolean
-  },
-  data: () => ({
-    ...config,
-    price: 2800
-  })
+    price: Number,
+    term: String
+  }
 };
 </script>
 

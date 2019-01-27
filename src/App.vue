@@ -4,8 +4,13 @@
       <Logo/>
       <Heading :title="titulek" :subtitle="podtitulek"/>
       <InitialText :text="uvodniText"/>
-      <CampInfo/>
-      <ApplicationForm/>
+      <CampInfo :price="price" :term="term"/>
+      <ApplicationForm
+        :isSale="isSale"
+        :price="price"
+        :forPrint="forPrint"
+        @sale-change="isSale = $event"
+      />
     </main>
   </div>
 </template>
@@ -28,11 +33,24 @@ export default {
     InitialText,
     Logo
   },
-  data: () => ({
-    ...config
-  }),
+  data: function() {
+    this.isSale = this.isSale || false;
+    return {
+      ...config,
+      term: config.termin,
+      isSale: false,
+      forPrint: false
+    };
+  },
+  computed: {
+    price: function() {
+      return this.isSale ? this.cena - this.sleva : this.cena;
+    }
+  },
   mounted() {
-    this.$root.$on("formSubmitted", values => alert(JSON.stringify(values)));
+    this.$root.$on("formSubmitted", values =>
+      console.log(JSON.stringify(values))
+    );
   }
 };
 </script>

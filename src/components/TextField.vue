@@ -13,12 +13,13 @@
       <input
         :id="name"
         :name="name"
-        required="required"
+        :v-validate="validation"
         type="text"
-        :class="[forPrint === false ? '' : 'is-static', 'input']"
+        :class="[forPrint === false ? '' : 'is-static', errors.has(oname) ? 'is-danger input' : 'input']"
         aria-required="true"
       >
     </div>
+    <div class="help is-danger">{{ errors.first(oname) }}</div>
   </div>
 </template>
 
@@ -30,7 +31,13 @@ export default {
     forPrint: Boolean,
     helpText: String,
     name: String,
+    validation: String,
     type: String
+  },
+  computed: {
+    oname() {
+      return "'" + this.name + "'";
+    }
   }
 };
 </script>
