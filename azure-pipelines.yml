@@ -15,10 +15,11 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    contents: dist/**
+    sourceFolder: $(Build.SourcesDirectory)/dist
+    contents: '**'
     targetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: $(Build.ArtifactStagingDirectory)
-    ArtifactName: $(Build.BuildNumber)-dist
+    ArtifactName: $(Build.BuildNumber)
