@@ -1,18 +1,11 @@
 <template>
   <section>
-    <form @submit.prevent="validateBeforeSubmit">
+    <form>
       <div class="field">
         <h3 class="subtitle is-4">Táborník</h3>
       </div>
       <div class="field-body field">
-        <TextField
-          name="name"
-          displayName="Jméno"
-          type="text"
-          :forPrint="forPrint"
-          validation="'required|email'"
-          v-model="name"
-        />
+        <TextField name="name" displayName="Jméno" type="text" :forPrint="forPrint" v-model="name"/>
         <TextField
           name="surname"
           displayName="Příjmení"
@@ -160,19 +153,7 @@ export default {
       fatherEmail: null
     };
   },
-  methods: {
-    validateBeforeSubmit() {
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          // eslint-disable-next-line
-          alert("Form Submitted!");
-          return;
-        }
-
-        alert("Correct them errors!");
-      });
-    }
-  }
+  methods: {}
 };
 </script>
 

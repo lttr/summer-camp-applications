@@ -13,7 +13,6 @@
       <input
         :id="name"
         :name="name"
-        :v-validate="validation"
         type="text"
         :class="[forPrint === false ? '' : 'is-static', errors.has(oname) ? 'is-danger input' : 'input']"
         aria-required="true"
@@ -31,7 +30,6 @@ export default {
     forPrint: Boolean,
     helpText: String,
     name: String,
-    validation: String,
     type: String
   },
   computed: {
