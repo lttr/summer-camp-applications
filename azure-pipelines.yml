@@ -18,5 +18,5 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/dist'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: '$(Build.BuildNumber)-dist'
