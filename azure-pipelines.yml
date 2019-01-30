@@ -2,21 +2,23 @@ trigger:
 - master
 
 pool:
-  vmImage: 'Ubuntu-16.04'
+  vmImage: Ubuntu-16.04
 
 steps:
 - task: NodeTool@0
-  displayName: 'Install Node.js'
   inputs:
-    versionSpec: '8.x'
+    versionSpec: 8.x
 
 - script: |
     npm install
     npm run build
-  displayName: 'npm install and build'
+
+- task: CopyFiles@2
+  inputs:
+    contents: dist/**
+    targetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: '$(Build.BuildNumber)-dist'
+    PathtoPublish: $(Build.ArtifactStagingDirectory)
+    ArtifactName: $(Build.BuildNumber)-dist
