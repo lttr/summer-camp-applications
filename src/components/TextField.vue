@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label :for="name" :type="type" class="label">
+    <label :for="name" class="label">
       <p>
         {{ displayName }}
         <span

@@ -22,7 +22,6 @@ try {
   featuresElement.textContent = featuresText
   document.body.appendChild(featuresElement)
 } catch (e) {
-  console.error(e)
   const featuresError = 'Error loading the Firebase SDK, check the console.'
   featuresElement.textContent = featuresError
 }

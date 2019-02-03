@@ -1,6 +1,6 @@
 # build directory
 /dist
-
+  
 # npm
 node_modules
 
