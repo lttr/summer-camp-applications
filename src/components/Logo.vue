@@ -1,5 +1,5 @@
 <template>
-  <img src="SKAUT_logo.svg" class="logo">
+  <img src="/SKAUT_logo.svg" class="logo">
 </template>
 
 <script>
@@ -9,7 +9,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .logo {
   position: absolute;
   top: 0.7rem;

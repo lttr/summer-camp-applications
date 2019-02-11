@@ -201,6 +201,7 @@
 
 <script>
 import AdditionalInfo from "./AdditionalInfo.vue";
+import { db } from "../firebase";
 
 export default {
   name: "ApplicationForm",
@@ -212,16 +213,24 @@ export default {
     isSale: Boolean,
     forPrint: Boolean
   },
-  data: function() {
+  data() {
     return {
-      name: null,
-      surname: null,
-      birthNumber: null,
-      address: null,
-      motherName: null,
-      motherSurname: null,
-      motherTel: null,
-      motherEmail: null,
+      name: "lsid",
+      surname: "Ilsid",
+      birthNumber: "123456/7894",
+      address: "lsid",
+      motherName: "Idsl",
+      motherSurname: "Asldi",
+      motherTel: "123",
+      motherEmail: "a@b.cz",
+      // name: null,
+      // surname: null,
+      // birthNumber: null,
+      // address: null,
+      // motherName: null,
+      // motherSurname: null,
+      // motherTel: null,
+      // motherEmail: null,
       fatherName: null,
       fatherSurname: null,
       fatherTel: null,
@@ -253,9 +262,11 @@ export default {
         this.errors.push("Vyplňte údaje alespoň jednoho z rodičů.");
       }
 
-      if (!this.errors.length) {
-        return true;
+      if (this.errors.length) {
+        return false;
       }
+
+      this.sendForm();
     },
     childFieldsPresent() {
       return this.name && this.surname && this.birthNumber && this.address;
@@ -276,13 +287,45 @@ export default {
         this.fatherEmail
       );
     },
-    validBirthNumber: function(birthNumber) {
+    validBirthNumber(birthNumber) {
       var re = /^\d{6}\/\d{4}$/;
       return re.test(birthNumber);
+    },
+    sendForm() {
+      const event = db
+        .collection("organizations")
+        .doc("IOJYDqNsnKbEKvWJZmkG")
+        .collection("events")
+        .doc("AjvRi94cFhvjYGTyLd5e");
+      const doc = {
+        created: new Date(),
+        deleted: false,
+        name: this.name,
+        surname: this.surname,
+        birthNumber: this.birthNumber,
+        address: this.address,
+        motherName: this.motherName,
+        motherSurname: this.motherSurname,
+        motherTel: this.motherTel,
+        motherEmail: this.motherEmail,
+        fatherName: this.fatherName,
+        fatherSurname: this.fatherSurname,
+        fatherTel: this.fatherTel,
+        fatherEmail: this.fatherEmail
+      };
+      event
+        .collection("applications")
+        .add(doc)
+        .then(i => {
+          alert("success" + i.id);
+        })
+        .catch(error => {
+          alert(error);
+        });
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 </style>
