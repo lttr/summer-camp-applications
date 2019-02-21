@@ -9,6 +9,7 @@
         :isSale="isSale"
         :price="price"
         :forPrint="forPrint"
+        :eventId="eventId"
         @sale-change="isSale = $event"
       />
     </main>
@@ -24,7 +25,8 @@ import CampInfo from "../components/CampInfo.vue";
 import Heading from "../components/Heading.vue";
 import InitialText from "../components/InitialText.vue";
 import Logo from "../components/Logo.vue";
-import { config } from "../config.js";
+import { config } from "../config";
+import { db } from "../main.js";
 
 export default {
   name: "application",
@@ -41,22 +43,30 @@ export default {
       ...config,
       term: config.termin,
       isSale: false,
-      forPrint: false
+      forPrint: false,
+      eventId: null
     };
   },
   computed: {
     price: function() {
       return this.isSale ? this.cena - this.sleva : this.cena;
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    const eventId = to.params.event;
+    db.collection("events")
+      .doc(eventId)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          next(vm => (vm.eventId = eventId));
+        } else {
+          next(false);
+        }
+      })
+      .catch(() => {
+        // next(false);
+      });
   }
 };
 </script>
-
-<style scoped>
-.main {
-  margin: 0 auto;
-}
-section {
-  margin: 3rem 1.5rem;
-}
-</style>

@@ -12,7 +12,7 @@
             <p>Jméno</p>
           </label>
           <div class="control">
-            <input id="name" name="name" v-model="name" type="text" class="input">
+            <input id="name" name="name" v-model="attendee.name" type="text" class="input">
           </div>
         </div>
 
@@ -22,7 +22,7 @@
             <p>Příjmení</p>
           </label>
           <div class="control">
-            <input id="surname" name="surname" v-model="surname" type="text" class="input">
+            <input id="surname" name="surname" v-model="attendee.surname" type="text" class="input">
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@
           <input
             id="birthNumber"
             name="birthNumber"
-            v-model="birthNumber"
+            v-model="attendee.birthNumber"
             type="text"
             class="input"
           >
@@ -52,7 +52,7 @@
           <p>Bydliště</p>
         </label>
         <div class="control">
-          <input id="address" name="address" v-model="address" type="text" class="input">
+          <input id="address" name="address" v-model="attendee.address" type="text" class="input">
         </div>
       </div>
 
@@ -67,7 +67,13 @@
             <p>Jméno</p>
           </label>
           <div class="control">
-            <input id="motherName" name="motherName" v-model="motherName" type="text" class="input">
+            <input
+              id="motherName"
+              name="motherName"
+              v-model="attendee.motherName"
+              type="text"
+              class="input"
+            >
           </div>
         </div>
 
@@ -80,7 +86,7 @@
             <input
               id="motherSurname"
               name="motherSurname"
-              v-model="motherSurname"
+              v-model="attendee.motherSurname"
               type="text"
               class="input"
             >
@@ -94,7 +100,13 @@
           <p>Telefon</p>
         </label>
         <div class="control">
-          <input id="motherTel" name="motherTel" v-model="motherTel" type="tel" class="input">
+          <input
+            id="motherTel"
+            name="motherTel"
+            v-model="attendee.motherTel"
+            type="tel"
+            class="input"
+          >
         </div>
       </div>
 
@@ -107,7 +119,7 @@
           <input
             id="motherEmail"
             name="motherEmail"
-            v-model="motherEmail"
+            v-model="attendee.motherEmail"
             type="email"
             class="input"
           >
@@ -125,7 +137,13 @@
             <p>Jméno</p>
           </label>
           <div class="control">
-            <input id="fatherName" name="fatherName" v-model="fatherName" type="text" class="input">
+            <input
+              id="fatherName"
+              name="fatherName"
+              v-model="attendee.fatherName"
+              type="text"
+              class="input"
+            >
           </div>
         </div>
 
@@ -138,7 +156,7 @@
             <input
               id="fatherSurname"
               name="fatherSurname"
-              v-model="fatherSurname"
+              v-model="attendee.fatherSurname"
               type="text"
               class="input"
             >
@@ -152,7 +170,13 @@
           <p>Telefon</p>
         </label>
         <div class="control">
-          <input id="fatherTel" name="fatherTel" v-model="fatherTel" type="tel" class="input">
+          <input
+            id="fatherTel"
+            name="fatherTel"
+            v-model="attendee.fatherTel"
+            type="tel"
+            class="input"
+          >
         </div>
       </div>
 
@@ -165,7 +189,7 @@
           <input
             id="fatherEmail"
             name="fatherEmail"
-            v-model="fatherEmail"
+            v-model="attendee.fatherEmail"
             type="email"
             class="input"
           >
@@ -201,7 +225,7 @@
 
 <script>
 import AdditionalInfo from "./AdditionalInfo.vue";
-import { db } from "../firebase";
+import { db } from "../main.js";
 
 export default {
   name: "ApplicationForm",
@@ -211,30 +235,33 @@ export default {
   props: {
     price: Number,
     isSale: Boolean,
-    forPrint: Boolean
+    forPrint: Boolean,
+    eventId: String
   },
   data() {
     return {
-      name: "lsid",
-      surname: "Ilsid",
-      birthNumber: "123456/7894",
-      address: "lsid",
-      motherName: "Idsl",
-      motherSurname: "Asldi",
-      motherTel: "123",
-      motherEmail: "a@b.cz",
-      // name: null,
-      // surname: null,
-      // birthNumber: null,
-      // address: null,
-      // motherName: null,
-      // motherSurname: null,
-      // motherTel: null,
-      // motherEmail: null,
-      fatherName: null,
-      fatherSurname: null,
-      fatherTel: null,
-      fatherEmail: null,
+      attendee: {
+        name: "asdf",
+        surname: "Ilsid",
+        birthNumber: "123456/7894",
+        address: "lsid",
+        motherName: "Idsl",
+        motherSurname: "Asldi",
+        motherTel: "123",
+        motherEmail: "a@b.cz",
+        // name: null,
+        // surname: null,
+        // birthNumber: null,
+        // address: null,
+        // motherName: null,
+        // motherSurname: null,
+        // motherTel: null,
+        // motherEmail: null,
+        fatherName: null,
+        fatherSurname: null,
+        fatherTel: null,
+        fatherEmail: null
+      },
       errors: []
     };
   },
@@ -244,18 +271,18 @@ export default {
 
       this.errors = [];
 
-      if (!this.name) {
+      if (!this.attendee.name) {
         this.errors.push("Vyplňte jméno táborníka.");
       }
-      if (!this.surname) {
+      if (!this.attendee.surname) {
         this.errors.push("Vyplňte příjmení táborníka.");
       }
-      if (!this.address) {
+      if (!this.attendee.address) {
         this.errors.push("Vyplňte bydliště táborníka.");
       }
-      if (!this.birthNumber) {
+      if (!this.attendee.birthNumber) {
         this.errors.push("Vyplňte rodné číslo táborníka.");
-      } else if (!this.validBirthNumber(this.birthNumber)) {
+      } else if (!this.validBirthNumber(this.attendee.birthNumber)) {
         this.errors.push("Zadejte rodné číslo v požadovaném tvaru.");
       }
       if (!this.fatherPresent() && !this.motherPresent()) {
@@ -269,22 +296,27 @@ export default {
       this.sendForm();
     },
     childFieldsPresent() {
-      return this.name && this.surname && this.birthNumber && this.address;
+      return (
+        this.attendee.name &&
+        this.attendee.surname &&
+        this.attendee.birthNumber &&
+        this.attendee.address
+      );
     },
     motherPresent() {
       return (
-        this.motherName &&
-        this.motherSurname &&
-        this.motherTel &&
-        this.motherEmail
+        this.attendee.motherName &&
+        this.attendee.motherSurname &&
+        this.attendee.motherTel &&
+        this.attendee.motherEmail
       );
     },
     fatherPresent() {
       return (
-        this.fatherName &&
-        this.fatherSurname &&
-        this.fatherTel &&
-        this.fatherEmail
+        this.attendee.fatherName &&
+        this.attendee.fatherSurname &&
+        this.attendee.fatherTel &&
+        this.attendee.fatherEmail
       );
     },
     validBirthNumber(birthNumber) {
@@ -292,32 +324,32 @@ export default {
       return re.test(birthNumber);
     },
     sendForm() {
-      const event = db
-        .collection("organizations")
-        .doc("IOJYDqNsnKbEKvWJZmkG")
-        .collection("events")
-        .doc("AjvRi94cFhvjYGTyLd5e");
       const doc = {
         created: new Date(),
         deleted: false,
-        name: this.name,
-        surname: this.surname,
-        birthNumber: this.birthNumber,
-        address: this.address,
-        motherName: this.motherName,
-        motherSurname: this.motherSurname,
-        motherTel: this.motherTel,
-        motherEmail: this.motherEmail,
-        fatherName: this.fatherName,
-        fatherSurname: this.fatherSurname,
-        fatherTel: this.fatherTel,
-        fatherEmail: this.fatherEmail
+        attendee: this.attendee
+        // name: this.attendee.name,
+        // surname: this.attendee.surname,
+        // birthNumber: this.attendee.birthNumber,
+        // address: this.attendee.address,
+        // motherName: this.attendee.motherName,
+        // motherSurname: this.attendee.motherSurname,
+        // motherTel: this.attendee.motherTel,
+        // motherEmail: this.attendee.motherEmail,
+        // fatherName: this.attendee.fatherName,
+        // fatherSurname: this.attendee.fatherSurname,
+        // fatherTel: this.attendee.fatherTel,
+        // fatherEmail: this.attendee.fatherEmail
       };
-      event
+      db.collection("events")
+        .doc(this.eventId)
         .collection("applications")
         .add(doc)
-        .then(i => {
-          alert("success" + i.id);
+        .then(() => {
+          this.$router.push({
+            name: "Confirmation",
+            query: { name: this.attendee.name, surname: this.attendee.surname }
+          });
         })
         .catch(error => {
           alert(error);
@@ -327,5 +359,3 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { db } from "../firebase";
+import { db } from "../main";
 
 export default {
   name: "CampAdmin",
@@ -31,4 +31,3 @@ export default {
   }
 };
 </script>
-<style scoped></style>

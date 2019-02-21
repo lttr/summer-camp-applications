@@ -12,10 +12,16 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #app {
   margin: 0 auto;
   max-width: 44rem;
   position: relative;
+}
+.main {
+  margin: 0 auto;
+}
+section {
+  margin: 3rem 1.5rem;
 }
 </style>

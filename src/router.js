@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Application from './views/Application.vue'
+import Confirmation from './views/Confirmation.vue'
 import Home from './views/Home.vue'
+import PageNotFound from './views/PageNotFound.vue'
 
 Vue.use(Router)
 
@@ -26,9 +28,19 @@ export default new Router({
       component: Application,
     },
     {
+      path: '/t/:event/potvrzeni',
+      name: 'Confirmation',
+      component: Confirmation,
+    },
+    {
       path: '/t/:event/admin',
       name: 'CampAdmin',
       component: () => import(/* webpackChunkName: "campadmin" */ './views/CampAdmin.vue'),
+    },
+    {
+      path: '*',
+      name: 'PageNotFound',
+      component: PageNotFound,
     },
   ],
 })

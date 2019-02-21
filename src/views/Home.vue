@@ -8,9 +8,6 @@
       <p>
         <router-link to="/admin" class="has-text-light">administrace</router-link>
       </p>
-      <p>
-        <router-link to="/t/AjvRi94cFhvjYGTyLd5e/prihlaska" class="has-text-light">prvni tabor</router-link>
-      </p>
     </section>
   </div>
 </template>
@@ -27,12 +24,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.main {
-  margin: 0 auto;
-}
-section {
-  margin: 3rem 1.5rem;
-}
-</style>
