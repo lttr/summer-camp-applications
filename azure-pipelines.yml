@@ -19,7 +19,7 @@ steps:
     contents: |
       **/*
       !.git/**/*
-      !node_modules
+      !node_modules/**/*
     targetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
