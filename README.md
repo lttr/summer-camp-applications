@@ -25,6 +25,18 @@ npm run test
 npm run lint
 ```
 
+### Deployment
+
+#### Development
+```
+firebase deploy --project development
+```
+
+#### Production
+```
+firebase deploy --project production
+```
+
 ## MVP
 
 ### Requirements
