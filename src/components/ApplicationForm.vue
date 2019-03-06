@@ -225,7 +225,6 @@
 
 <script>
 import AdditionalInfo from "./AdditionalInfo.vue";
-import { db } from "../main.js";
 
 export default {
   name: "ApplicationForm",
@@ -236,27 +235,20 @@ export default {
     price: Number,
     isSale: Boolean,
     forPrint: Boolean,
-    eventId: String
+    eventId: String,
+    db: Object
   },
   data() {
     return {
       attendee: {
-        name: "asdf",
-        surname: "Ilsid",
-        birthNumber: "123456/7894",
-        address: "lsid",
-        motherName: "Idsl",
-        motherSurname: "Asldi",
-        motherTel: "123",
-        motherEmail: "a@b.cz",
-        // name: null,
-        // surname: null,
-        // birthNumber: null,
-        // address: null,
-        // motherName: null,
-        // motherSurname: null,
-        // motherTel: null,
-        // motherEmail: null,
+        name: null,
+        surname: null,
+        birthNumber: null,
+        address: null,
+        motherName: null,
+        motherSurname: null,
+        motherTel: null,
+        motherEmail: null,
         fatherName: null,
         fatherSurname: null,
         fatherTel: null,
@@ -328,27 +320,19 @@ export default {
         created: new Date(),
         deleted: false,
         attendee: this.attendee
-        // name: this.attendee.name,
-        // surname: this.attendee.surname,
-        // birthNumber: this.attendee.birthNumber,
-        // address: this.attendee.address,
-        // motherName: this.attendee.motherName,
-        // motherSurname: this.attendee.motherSurname,
-        // motherTel: this.attendee.motherTel,
-        // motherEmail: this.attendee.motherEmail,
-        // fatherName: this.attendee.fatherName,
-        // fatherSurname: this.attendee.fatherSurname,
-        // fatherTel: this.attendee.fatherTel,
-        // fatherEmail: this.attendee.fatherEmail
       };
-      db.collection("events")
+      this.db
+        .collection("events")
         .doc(this.eventId)
         .collection("applications")
         .add(doc)
         .then(() => {
           this.$router.push({
             name: "Confirmation",
-            query: { name: this.attendee.name, surname: this.attendee.surname }
+            query: {
+              jmeno: this.attendee.name,
+              prijmeni: this.attendee.surname
+            }
           });
         })
         .catch(error => {

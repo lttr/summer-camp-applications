@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Application from './views/Application.vue'
+import CampAdmin from './views/CampAdmin.vue'
 import Confirmation from './views/Confirmation.vue'
 import Home from './views/Home.vue'
+import OrgAdmin from './views/OrgAdmin.vue'
 import PageNotFound from './views/PageNotFound.vue'
 
 Vue.use(Router)
@@ -20,7 +22,7 @@ export default new Router({
     {
       path: '/admin',
       name: 'OrgAdmin',
-      component: () => import(/* webpackChunkName: "orgadmin" */ './views/OrgAdmin.vue'),
+      component: OrgAdmin,
     },
     {
       path: '/t/:event/prihlaska',
@@ -28,14 +30,17 @@ export default new Router({
       component: Application,
     },
     {
-      path: '/t/:event/potvrzeni',
+      path: '/t/:event/prihlaska-odeslana',
       name: 'Confirmation',
       component: Confirmation,
     },
     {
       path: '/t/:event/admin',
       name: 'CampAdmin',
-      component: () => import(/* webpackChunkName: "campadmin" */ './views/CampAdmin.vue'),
+      component: CampAdmin,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '*',

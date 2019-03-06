@@ -1,33 +1,55 @@
 <template>
   <main>
     <h1 class="title">Přihlášky</h1>
+    <h2>{{ eventName }} - {{ eventId }}</h2>
+    <ul>
+      <li v-bind:key="application.id" v-for="application in applications">{{ application.name }}</li>
+    </ul>
   </main>
 </template>
 
 <script>
-import { db } from "../main";
+import { initializeDatabase } from "../firebase";
 
 export default {
   name: "CampAdmin",
-  mounted() {
-    db.collection("organizations")
-      .doc("IOJYDqNsnKbEKvWJZmkG")
-      .collection("events")
-      .doc("AjvRi94cFhvjYGTyLd5e")
-      .collection("applications")
-      .get()
-      .then(result => {
-        result.forEach(item => {
-          const p = document.createElement("p");
-          p.textContent = `${item.id} => ${item.data().name}`;
-          document.body.appendChild(p);
-        });
-      });
-  },
   data() {
     return {
-      applications: null
+      nothing: false,
+      eventId: null,
+      eventName: "",
+      applications: null,
+      db: null
     };
+  },
+  async beforeRouteEnter(to, from, next) {
+    const eventId = to.params.event;
+    const db = await initializeDatabase();
+    db.collection("events")
+      .doc(eventId)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          next(vm => {
+            db.collection("events")
+              .doc(eventId)
+              .collection("applications")
+              .get()
+              .then(applications => {
+                vm.applications = applications.data();
+              });
+            vm.eventId = eventId;
+            vm.eventName = doc.data().name;
+            vm.nothing = false;
+            vm.db = db;
+          });
+        } else {
+          next(vm => (vm.nothing = true));
+        }
+      })
+      .catch(() => {
+        next(vm => (vm.nothing = true));
+      });
   }
 };
 </script>

@@ -4,7 +4,10 @@
       <Logo/>
       <Heading :title="titulek" :subtitle="podtitulek"/>
       <section>
-        <p>Přihláška na jméno {{this.name}} {{ this.surname }} byla přijata.</p>
+        <p>
+          Přihláška na jméno {{ $route.query.jmeno }} {{ $route.query.prijmeni }} byla přijata.
+          Informace k platbě a přihláška k podepsání Vám bude zaslána později na uvedené emaily rodičů.
+        </p>
         <p></p>
       </section>
     </main>
@@ -17,7 +20,7 @@ import Logo from "../components/Logo.vue";
 import { config } from "../config";
 
 export default {
-  name: "application",
+  name: "Confirmation",
   components: {
     Heading,
     Logo
