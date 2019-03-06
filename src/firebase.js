@@ -13,9 +13,9 @@ const firebaseConfigDev = {
 export function initializeFirebase() {
   if (process.env.NODE_ENV === 'production') {
     // when vue cli built the project then firebase hosting is expected
-    return fetch('/__/firebase/init.json').then((response) => {
-      return firebaseApp.initializeApp(response.json())
-    })
+    return fetch('/__/firebase/init.json')
+      .then((response) => response.json())
+      .then((config) => firebaseApp.initializeApp(config))
   } else {
     const firebase = firebaseApp.initializeApp(firebaseConfigDev)
     return Promise.resolve(firebase)
