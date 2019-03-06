@@ -253,7 +253,7 @@ export default {
   },
   watch: {
     price: function(newVal) {
-      this.finalPrice = newVal;
+      this.attendee.price = newVal;
     }
   },
   data() {
@@ -271,7 +271,7 @@ export default {
         fatherSurname: null,
         fatherTel: null,
         fatherEmail: null,
-        finalPrice: this.price
+        price: this.price
       },
       errors: []
     };
