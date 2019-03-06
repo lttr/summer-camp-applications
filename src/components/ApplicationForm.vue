@@ -251,6 +251,11 @@ export default {
     eventId: String,
     db: Object
   },
+  watch: {
+    price: function(newVal) {
+      this.finalPrice = newVal;
+    }
+  },
   data() {
     return {
       attendee: {
@@ -266,7 +271,7 @@ export default {
         fatherSurname: null,
         fatherTel: null,
         fatherEmail: null,
-        price: this.price
+        finalPrice: this.price
       },
       errors: []
     };
