@@ -10,12 +10,14 @@
         <InitialText :text="uvodniText"/>
         <CampInfo :price="price" :term="term"/>
         <ApplicationForm
-          :isSale="isSale"
+          :isSaleSiblings="isSaleSiblings"
+          :isSaleGroupMember="isSaleGroupMember"
           :price="price"
           :forPrint="forPrint"
           :eventId="eventId"
           :db="db"
-          @sale-change="isSale = $event"
+          @sale-siblings-change="isSaleSiblings = $event"
+          @sale-group-member-change="isSaleGroupMember = $event"
         />
       </div>
     </main>
@@ -46,11 +48,11 @@ export default {
     Logo
   },
   data() {
-    this.isSale = this.isSale || false;
     return {
       ...config,
       term: config.termin,
-      isSale: false,
+      isSaleSiblings: false,
+      isSaleGroupMember: false,
       forPrint: false,
       eventId: null,
       navigationFailed: false,
@@ -59,7 +61,14 @@ export default {
   },
   computed: {
     price() {
-      return this.isSale ? this.cena - this.sleva : this.cena;
+      let price = this.cena;
+      if (this.isSaleSiblings) {
+        price -= this.slevaSourozenci;
+      }
+      if (this.isSaleGroupMember) {
+        price -= this.slevaClenOddilu;
+      }
+      return price;
     }
   },
   async beforeRouteEnter(to, from, next) {

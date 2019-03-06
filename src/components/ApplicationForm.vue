@@ -199,12 +199,24 @@
       <div class="field">
         <label class="checkbox">
           <input
-            name="sleva"
+            name="saleSiblings"
             type="checkbox"
-            :checked="isSale"
-            @change="$emit('sale-change', $event.target.checked)"
+            :checked="isSaleSiblings"
+            @change="$emit('sale-siblings-change', $event.target.checked)"
           >
           Uplatnit slevu na sourozence (tábora se účastní více mých dětí)
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="checkbox">
+          <input
+            name="saleGroupMember"
+            type="checkbox"
+            :checked="isSaleGroupMember"
+            @change="$emit('sale-group-member-change', $event.target.checked)"
+          >
+          Uplatnit slevu na člena oddílu
         </label>
       </div>
 
@@ -233,7 +245,8 @@ export default {
   },
   props: {
     price: Number,
-    isSale: Boolean,
+    isSaleSiblings: Boolean,
+    isSaleGroupMember: Boolean,
     forPrint: Boolean,
     eventId: String,
     db: Object
@@ -252,7 +265,8 @@ export default {
         fatherName: null,
         fatherSurname: null,
         fatherTel: null,
-        fatherEmail: null
+        fatherEmail: null,
+        price: this.price
       },
       errors: []
     };

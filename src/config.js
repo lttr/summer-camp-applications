@@ -5,5 +5,6 @@ export const config = {
   termin: '29. 6. - 14. 7. 2019',
   podtitulek: '24. skautského oddílu',
   cena: 2800,
-  sleva: 100,
+  slevaSourozenci: 100,
+  slevaClenOddilu: 100,
 }
