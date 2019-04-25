@@ -1,23 +1,23 @@
 <template>
   <div class="wrapper">
     <main class="main box">
-      <Logo/>
-      <Heading title="Přihlášky na tábor" subtitle="Tato stránka neexistuje"/>
+      <Logo />
+      <Heading title="Přihlášky na tábor" subtitle="Tato stránka neexistuje" />
     </main>
   </div>
 </template>
 
 <script>
-import Heading from "../components/Heading.vue";
-import Logo from "../components/Logo.vue";
+import Heading from '../components/Heading.vue'
+import Logo from '../components/Logo.vue'
 
 export default {
-  name: "PageNotFound",
+  name: 'PageNotFound',
   components: {
     Heading,
-    Logo
-  }
-};
+    Logo,
+  },
+}
 </script>
 
 <style scoped>

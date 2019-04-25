@@ -7,10 +7,10 @@
 
 <script>
 export default {
-  name: "Heading",
+  name: 'Heading',
   props: {
     title: String,
-    subtitle: String
-  }
-};
+    subtitle: String,
+  },
+}
 </script>

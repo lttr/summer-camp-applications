@@ -2,15 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Application from './views/Application.vue'
+import SignIn from './views/SignIn.vue'
 import CampAdmin from './views/CampAdmin.vue'
 import Confirmation from './views/Confirmation.vue'
 import Home from './views/Home.vue'
 import OrgAdmin from './views/OrgAdmin.vue'
 import PageNotFound from './views/PageNotFound.vue'
+import { currentUser } from './firebase'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -18,6 +20,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
+    },
+    {
+      path: '/sign-in',
+      name: 'SignIn',
+      component: SignIn,
     },
     {
       path: '/admin',
@@ -49,3 +56,17 @@ export default new Router({
     },
   ],
 })
+
+router.beforeEach((to, from, next) => {
+  const user = currentUser()
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  if (requiresAuth && !user) {
+    next('/sign-in')
+  } else if (requiresAuth && user) {
+    next()
+  } else {
+    next()
+  }
+})
+
+export default router

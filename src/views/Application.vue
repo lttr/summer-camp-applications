@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
     <main class="main box">
-      <Logo/>
+      <Logo />
       <div v-if="navigationFailed">
-        <Heading title="Přihlášky na tábor" subtitle="Akce nebyla nalezena"/>
+        <Heading title="Přihlášky na tábor" subtitle="Akce nebyla nalezena" />
       </div>
       <div v-if="!navigationFailed">
-        <Heading :title="titulek" :subtitle="podtitulek"/>
-        <InitialText :text="uvodniText"/>
-        <CampInfo :price="price" :term="term"/>
+        <Heading :title="titulek" :subtitle="podtitulek" />
+        <InitialText :text="uvodniText" />
+        <CampInfo :price="price" :term="term" />
         <ApplicationForm
           :isSaleSiblings="isSaleSiblings"
           :isSaleGroupMember="isSaleGroupMember"
@@ -28,24 +28,24 @@
 </template>
 
 <script>
-import ApplicationForm from "../components/ApplicationForm.vue";
-import CampInfo from "../components/CampInfo.vue";
-import Heading from "../components/Heading.vue";
-import InitialText from "../components/InitialText.vue";
-import Logo from "../components/Logo.vue";
-import { config } from "../config";
-import { initializeDatabase } from "../firebase.js";
+import ApplicationForm from '../components/ApplicationForm.vue'
+import CampInfo from '../components/CampInfo.vue'
+import Heading from '../components/Heading.vue'
+import InitialText from '../components/InitialText.vue'
+import Logo from '../components/Logo.vue'
+import { config } from '../config'
+import { initializeDatabase } from '../firebase.js'
 
-let db = null;
+let db = null
 
 export default {
-  name: "Application",
+  name: 'Application',
   components: {
     ApplicationForm,
     CampInfo,
     Heading,
     InitialText,
-    Logo
+    Logo,
   },
   data() {
     return {
@@ -56,43 +56,43 @@ export default {
       forPrint: false,
       eventId: null,
       navigationFailed: false,
-      db: null
-    };
+      db: null,
+    }
   },
   computed: {
     price() {
-      let price = this.cena;
+      let price = this.cena
       if (this.isSaleSiblings) {
-        price -= this.slevaSourozenci;
+        price -= this.slevaSourozenci
       }
       if (this.isSaleGroupMember) {
-        price -= this.slevaClenOddilu;
+        price -= this.slevaClenOddilu
       }
-      return price;
-    }
+      return price
+    },
   },
-  async beforeRouteEnter(to, from, next) {
-    const eventId = to.params.event;
+  beforeRouteEnter(to, from, next) {
+    const eventId = to.params.event
     if (!db) {
-      db = await initializeDatabase();
+      db = initializeDatabase()
     }
-    db.collection("events")
+    db.collection('events')
       .doc(eventId)
       .get()
       .then(doc => {
         if (doc.exists) {
           next(vm => {
-            vm.eventId = eventId;
-            vm.navigationFailed = false;
-            vm.db = db;
-          });
+            vm.eventId = eventId
+            vm.navigationFailed = false
+            vm.db = db
+          })
         } else {
-          next(vm => (vm.navigationFailed = true));
+          next(vm => (vm.navigationFailed = true))
         }
       })
       .catch(() => {
-        next(vm => (vm.navigationFailed = true));
-      });
-  }
-};
+        next(vm => (vm.navigationFailed = true))
+      })
+  },
+}
 </script>

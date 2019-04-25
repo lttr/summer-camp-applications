@@ -4,10 +4,9 @@
       <div class="column is-narrow">
         <div class="box">
           <h3 class="title is-6">Pořadatel</h3>
-          <address class="info">Junák – český skaut,
-            <br>středisko Rybárny, z. s.
-            <br>Na Rybárně 1427
-            <br>Hradec Králové
+          <address class="info">
+            Junák – český skaut, <br />středisko Rybárny, z. s. <br />Na Rybárně 1427 <br />Hradec
+            Králové
           </address>
         </div>
       </div>
@@ -17,11 +16,11 @@
           <div class="info">
             <span class="info-label">termín</span>
             {{ term }}
-            <br>
+            <br />
             <span class="info-label">místo konání</span> Vranice u Jarošova
-            <br>
+            <br />
             <span class="info-label">vedoucí tábora</span> Lukáš Trumm
-            <br>
+            <br />
             <span class="info-label">cena tábora</span>
             {{ price }},- Kč
           </div>
@@ -33,14 +32,14 @@
 
 <script>
 export default {
-  name: "CampInfo",
+  name: 'CampInfo',
   props: {
     title: String,
     subtitle: String,
     price: Number,
-    term: String
-  }
-};
+    term: String,
+  },
+}
 </script>
 
 <style scoped>

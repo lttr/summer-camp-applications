@@ -1,8 +1,11 @@
 <template>
   <div class="wrapper">
     <main class="main box">
-      <Logo/>
-      <Heading title="Přihlášky na tábor" subtitle="Aplikace pro jednoduché přihlašování na tábor"/>
+      <Logo />
+      <Heading
+        title="Přihlášky na tábor"
+        subtitle="Aplikace pro jednoduché přihlašování na tábor"
+      />
     </main>
     <section class="has-text-centered">
       <p>
@@ -13,14 +16,14 @@
 </template>
 
 <script>
-import Heading from "../components/Heading.vue";
-import Logo from "../components/Logo.vue";
+import Heading from '../components/Heading.vue'
+import Logo from '../components/Logo.vue'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     Heading,
-    Logo
-  }
-};
+    Logo,
+  },
+}
 </script>

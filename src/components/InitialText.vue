@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  name: "InitialText",
+  name: 'InitialText',
   props: {
-    text: String
-  }
-};
+    text: String,
+  },
+}
 </script>

@@ -7,21 +7,20 @@
         Táborovým řádem a skautskými zvyklostmi.
       </li>
       <li>
-        Táborové finanční hospodaření je rozpočtováno pouze na základě
-        táborových poplatků a je vyrovnané, příjmy odpovídají skutečným výdajům.
+        Táborové finanční hospodaření je rozpočtováno pouze na základě táborových poplatků a je
+        vyrovnané, příjmy odpovídají skutečným výdajům.
       </li>
       <li>
-        Zavazuji se, že při odjezdu na tábor odevzdám potvrzení o&nbsp;bezinfekčnosti
-        a posudek o zdravotní způsobilosti dítěte.
+        Zavazuji se, že při odjezdu na tábor odevzdám potvrzení o&nbsp;bezinfekčnosti a posudek o
+        zdravotní způsobilosti dítěte.
       </li>
       <li>
-        Souhlasím s evidencí osobních údajů dítěte pro vnitřní potřebu organizace
-        Junák – český skaut, z. s. a pro potřeby zabezpečení letního tábora.
+        Souhlasím s evidencí osobních údajů dítěte pro vnitřní potřebu organizace Junák – český
+        skaut, z. s. a pro potřeby zabezpečení letního tábora.
       </li>
       <li>
-        Beru na vědomí, že fotografie pořízené na tomto táboře mohou být
-        zveřejněny v rámci propagačních a informativních akcí provozovatele
-        tábora.
+        Beru na vědomí, že fotografie pořízené na tomto táboře mohou být zveřejněny v rámci
+        propagačních a informativních akcí provozovatele tábora.
       </li>
     </ul>
   </section>
@@ -29,9 +28,9 @@
 
 <script>
 export default {
-  name: "AdditionalInfo",
+  name: 'AdditionalInfo',
   props: {
-    price: Number
-  }
-};
+    price: Number,
+  },
+}
 </script>

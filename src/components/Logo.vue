@@ -1,12 +1,12 @@
 <template>
-  <img src="/SKAUT_logo.svg" class="logo">
+  <img src="/SKAUT_logo.svg" class="logo" />
 </template>
 
 <script>
 export default {
-  name: "Logo",
-  props: {}
-};
+  name: 'Logo',
+  props: {},
+}
 </script>
 
 <style scoped>

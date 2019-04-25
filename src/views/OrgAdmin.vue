@@ -5,30 +5,30 @@
 </template>
 
 <script>
-import { db } from "../main";
+import { db } from '../main'
 
 export default {
-  name: "OrgAdmin",
+  name: 'OrgAdmin',
   mounted() {
-    db.collection("organizations")
-      .doc("IOJYDqNsnKbEKvWJZmkG")
-      .collection("events")
-      .doc("AjvRi94cFhvjYGTyLd5e")
-      .collection("applications")
+    db.collection('organizations')
+      .doc('IOJYDqNsnKbEKvWJZmkG')
+      .collection('events')
+      .doc('AjvRi94cFhvjYGTyLd5e')
+      .collection('applications')
       .get()
       .then(result => {
         result.forEach(item => {
-          const p = document.createElement("p");
-          p.textContent = `${item.id} => ${item.data().name}`;
-          document.body.appendChild(p);
-        });
-      });
+          const p = document.createElement('p')
+          p.textContent = `${item.id} => ${item.data().name}`
+          document.body.appendChild(p)
+        })
+      })
   },
   data() {
     return {
-      applications: null
-    };
-  }
-};
+      applications: null,
+    }
+  },
+}
 </script>
 <style scoped></style>
