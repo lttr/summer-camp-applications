@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { db } from '../main'
+import { initializeDatabase } from '../firebase'
 
 export default {
   name: 'OrgAdmin',
