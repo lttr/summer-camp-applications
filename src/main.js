@@ -8,9 +8,12 @@ Vue.config.productionTip = false
 
 Vue.use(VueFire)
 
-initializeFirebase()
+async function initializeApp() {
+  await initializeFirebase()
+  new Vue({
+    router,
+    render: h => h(App),
+  }).$mount('#app')
+}
 
-new Vue({
-  router,
-  render: h => h(App),
-}).$mount('#app')
+initializeApp()

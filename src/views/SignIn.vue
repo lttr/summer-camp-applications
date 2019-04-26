@@ -9,12 +9,13 @@
 </template>
 
 <script>
-import { signIn, signOut } from '../firebase'
+import { signInWithFirebase, signOut } from '../firebase'
 export default {
   name: 'SignIn',
   methods: {
-    signIn: function() {
-      signIn()
+    signIn: async function() {
+      const result = await signInWithFirebase()
+      this.$router.push(this.$route.query.redirect || '/')
     },
     signOut: function() {
       signOut()

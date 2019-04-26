@@ -13,17 +13,14 @@ const firebaseConfigDev = {
 
 let firebase = null
 
-export function initializeFirebase() {
+export async function initializeFirebase() {
   if (process.env.NODE_ENV === 'production') {
     // when vue cli built the project then firebase hosting is expected
-    return fetch('/__/firebase/init.json')
-      .then(response => response.json())
-      .then(config => {
-        firebase = firebaseApp.initializeApp(config)
-      })
+    const response = await fetch('/__/firebase/init.json')
+    const config = await response.json()
+    firebase = firebaseApp.initializeApp(config)
   } else {
     firebase = firebaseApp.initializeApp(firebaseConfigDev)
-    return Promise.resolve(firebase)
   }
 }
 
@@ -31,9 +28,10 @@ export function initializeDatabase() {
   return firebase.firestore()
 }
 
-export function signIn() {
+export async function signInWithFirebase() {
   const provider = new firebaseApp.auth.GoogleAuthProvider()
-  firebase.auth().signInWithPopup(provider)
+  const result = await firebase.auth().signInWithPopup(provider)
+  return result
 }
 
 export function signOut() {
