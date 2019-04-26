@@ -3,11 +3,11 @@ service cloud.firestore {
 
     match /events/{eventId} {
       allow read;
-      allow write: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == 'jUhGwCo8hLOCtfAb3471hTplPRG3';
 
       match /applications/{applicationId} {
         allow write;
-        allow read: if request.auth != null;
+        allow read: if request.auth != null && request.auth.uid == 'jUhGwCo8hLOCtfAb3471hTplPRG3';
 
         allow create: if request.resource.data.name != null &&
           request.resource.data.surname != null &&
