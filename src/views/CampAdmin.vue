@@ -1,9 +1,11 @@
 <template>
   <section>
     <h1 class="title">Přihlášky - {{ eventName }}</h1>
+    <button class="button" @click="onclick">Reset order</button>
     <table class="table is-narrow">
       <thead>
         <tr>
+          <th>Pořadí</th>
           <th>Datum</th>
           <th>Jméno</th>
           <th>Příjmení</th>
@@ -22,9 +24,8 @@
       </thead>
       <tbody>
         <tr v-bind:key="application.id" v-for="application in applications">
-          <td>
-            {{ new Intl.DateTimeFormat('cs-CZ').format(application.created.toDate()) }}
-          </td>
+          <td>{{ application.order }}</td>
+          <td>{{ new Intl.DateTimeFormat('cs-CZ').format(application.created.toDate()) }}</td>
           <td>{{ application.attendee.name }}</td>
           <td>{{ application.attendee.surname }}</td>
           <td>{{ application.attendee.birthNumber }}</td>
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-import { initializeDatabase } from '../firebase'
+import { initializeDatabase, initializeFunctions } from '../firebase'
 
 export default {
   name: 'CampAdmin',
@@ -57,6 +58,12 @@ export default {
       applications: [],
       db: null,
     }
+  },
+  methods: {
+    onclick() {
+      const resetApplicationsOrder = initializeFunctions().httpsCallable('resetApplicationsOrder')
+      resetApplicationsOrder({ eventId: this.eventId })
+    },
   },
   beforeRouteEnter(to, from, next) {
     const eventId = to.params.event

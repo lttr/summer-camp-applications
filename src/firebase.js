@@ -1,6 +1,7 @@
 import firebaseApp from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/functions'
 
 const firebaseConfigDev = {
   apiKey: 'AIzaSyC1LGOMDGQaFbOqr85L4XGERNi3bD7E7sE',
@@ -11,7 +12,7 @@ const firebaseConfigDev = {
   messagingSenderId: '747153391031',
 }
 
-let firebase = null
+export let firebase = null
 
 export async function initializeFirebase() {
   if (process.env.NODE_ENV === 'production') {
@@ -40,4 +41,8 @@ export function signOut() {
 
 export function currentUser() {
   return firebase.auth().currentUser
+}
+
+export function initializeFunctions() {
+  return firebase.functions()
 }
