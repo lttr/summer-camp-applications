@@ -96,3 +96,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.wrapper {
+  max-width: 44rem;
+  margin: 0 auto;
+  position: relative;
+}
+section {
+  margin: 3rem 1.5rem;
+}
+</style>
