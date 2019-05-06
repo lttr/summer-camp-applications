@@ -25,8 +25,10 @@ export async function initializeFirebase() {
   }
 }
 
+export let db = null
+
 export function initializeDatabase() {
-  return firebase.firestore()
+  db = firebase.firestore()
 }
 
 export async function signInWithFirebase() {

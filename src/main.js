@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import VueFire from 'vuefire'
-import { initializeFirebase } from './firebase'
+import { firestorePlugin } from 'vuefire'
+import { initializeFirebase, initializeDatabase } from './firebase'
 
 Vue.config.productionTip = false
 
-Vue.use(VueFire)
+Vue.use(firestorePlugin)
 
 async function initializeApp() {
   await initializeFirebase()
+  initializeDatabase()
   new Vue({
     router,
     render: h => h(App),
