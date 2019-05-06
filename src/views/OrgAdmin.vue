@@ -5,25 +5,9 @@
 </template>
 
 <script>
-import { initializeDatabase } from '../firebase'
-
 export default {
   name: 'OrgAdmin',
-  mounted() {
-    db.collection('organizations')
-      .doc('IOJYDqNsnKbEKvWJZmkG')
-      .collection('events')
-      .doc('AjvRi94cFhvjYGTyLd5e')
-      .collection('applications')
-      .get()
-      .then(result => {
-        result.forEach(item => {
-          const p = document.createElement('p')
-          p.textContent = `${item.id} => ${item.data().name}`
-          document.body.appendChild(p)
-        })
-      })
-  },
+  mounted() {},
   data() {
     return {
       applications: null,

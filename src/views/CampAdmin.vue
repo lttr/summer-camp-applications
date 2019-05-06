@@ -1,7 +1,9 @@
 <template>
-  <section>
+  <section class="wrapper">
     <h1 class="title">Přihlášky - {{ eventName }}</h1>
-    <button class="button" @click="onclick">Reset order</button>
+    <p class="buttons">
+      <button class="button" @click="resetApplicationsOrder">Reset order</button>
+    </p>
     <table class="table is-narrow">
       <thead>
         <tr>
@@ -19,7 +21,16 @@
           <th>Příjmení otce</th>
           <th>Telefon otce</th>
           <th>Email otce</th>
-          <th>Cena</th>
+          <th>Požadovaná cena</th>
+          <th>
+            Konečná cena
+            <span v-if="isEditingFinalPrice">
+              <button class="action-icon" title="ok" @click="submitFinalPrice">✔️</button>
+            </span>
+            <span v-else>
+              <button class="action-icon" title="edit" @click="editFinalPrice">✏️</button>
+            </span>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -39,6 +50,14 @@
           <td>{{ application.attendee.fatherTel }}</td>
           <td>{{ application.attendee.fatherEmail }}</td>
           <td>{{ application.attendee.price }}</td>
+          <td>
+            <div v-if="isEditingFinalPrice">
+              <input class="final-price-input" type="number" v-model="application.finalPrice">
+            </div>
+            <div v-else>
+              <span class="final-price-text">{{ application.finalPrice }}</span>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -57,12 +76,41 @@ export default {
       eventName: '',
       applications: [],
       db: null,
+      isEditingFinalPrice: false,
     }
   },
   methods: {
-    onclick() {
+    resetApplicationsOrder() {
       const resetApplicationsOrder = initializeFunctions().httpsCallable('resetApplicationsOrder')
       resetApplicationsOrder({ eventId: this.eventId })
+    },
+    editFinalPrice(id) {
+      this.isEditingFinalPrice = true
+    },
+    submitFinalPrice(newPrice) {
+      this.isEditingFinalPrice = false
+      this.db
+        .collection('events')
+        .doc(this.eventId)
+        .collection('applications')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            const applicationRef = this.db
+              .collection('events')
+              .doc(this.eventId)
+              .collection('applications')
+              .doc(doc.id)
+
+            const application = this.applications.find(a => a.id === doc.id)
+            return applicationRef.update({
+              finalPrice:
+                application.finalPrice != undefined
+                  ? application.finalPrice
+                  : application.attendee.price,
+            })
+          })
+        })
     },
   },
   beforeRouteEnter(to, from, next) {
@@ -80,7 +128,7 @@ export default {
               .get()
               .then(querySnapshot => {
                 vm.applications = querySnapshot.docs
-                  .map(x => x.data())
+                  .map(x => ({ id: x.id, ...x.data() }))
                   .filter(x => !x.deleted)
                   .sort((a, b) => a.created.seconds - b.created.seconds)
               })
@@ -100,8 +148,20 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  max-width: initial;
+<style scoped>
+.wrapper {
+  position: relative;
+  margin: 2rem 1.5rem;
+}
+.buttons {
+  padding-bottom: 0.3rem;
+}
+.action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.final-price-input {
+  display: inline-block;
 }
 </style>

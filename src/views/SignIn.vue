@@ -14,7 +14,7 @@ export default {
   name: 'SignIn',
   methods: {
     signIn: async function() {
-      const result = await signInWithFirebase()
+      await signInWithFirebase()
       this.$router.push(this.$route.query.redirect || '/')
     },
     signOut: function() {
