@@ -12,7 +12,7 @@
             <p>Jméno</p>
           </label>
           <div class="control">
-            <input id="name" name="name" v-model="attendee.name" type="text" class="input" />
+            <input id="name" name="name" v-model="attendee.name" type="text" class="input">
           </div>
         </div>
 
@@ -22,13 +22,7 @@
             <p>Příjmení</p>
           </label>
           <div class="control">
-            <input
-              id="surname"
-              name="surname"
-              v-model="attendee.surname"
-              type="text"
-              class="input"
-            />
+            <input id="surname" name="surname" v-model="attendee.surname" type="text" class="input">
           </div>
         </div>
       </div>
@@ -48,7 +42,7 @@
             v-model="attendee.birthNumber"
             type="text"
             class="input"
-          />
+          >
         </div>
       </div>
 
@@ -58,7 +52,7 @@
           <p>Bydliště</p>
         </label>
         <div class="control">
-          <input id="address" name="address" v-model="attendee.address" type="text" class="input" />
+          <input id="address" name="address" v-model="attendee.address" type="text" class="input">
         </div>
       </div>
 
@@ -79,7 +73,7 @@
               v-model="attendee.motherName"
               type="text"
               class="input"
-            />
+            >
           </div>
         </div>
 
@@ -95,7 +89,7 @@
               v-model="attendee.motherSurname"
               type="text"
               class="input"
-            />
+            >
           </div>
         </div>
       </div>
@@ -112,7 +106,7 @@
             v-model="attendee.motherTel"
             type="tel"
             class="input"
-          />
+          >
         </div>
       </div>
 
@@ -128,7 +122,7 @@
             v-model="attendee.motherEmail"
             type="email"
             class="input"
-          />
+          >
         </div>
       </div>
 
@@ -149,7 +143,7 @@
               v-model="attendee.fatherName"
               type="text"
               class="input"
-            />
+            >
           </div>
         </div>
 
@@ -165,7 +159,7 @@
               v-model="attendee.fatherSurname"
               type="text"
               class="input"
-            />
+            >
           </div>
         </div>
       </div>
@@ -182,7 +176,7 @@
             v-model="attendee.fatherTel"
             type="tel"
             class="input"
-          />
+          >
         </div>
       </div>
 
@@ -198,7 +192,7 @@
             v-model="attendee.fatherEmail"
             type="email"
             class="input"
-          />
+          >
         </div>
       </div>
 
@@ -209,7 +203,7 @@
             type="checkbox"
             :checked="isSaleSiblings"
             @change="$emit('sale-siblings-change', $event.target.checked)"
-          />
+          >
           Uplatnit slevu na sourozence (tábora se účastní více mých dětí)
         </label>
       </div>
@@ -221,24 +215,22 @@
             type="checkbox"
             :checked="isSaleGroupMember"
             @change="$emit('sale-group-member-change', $event.target.checked)"
-          />
+          >
           Uplatnit slevu na člena oddílu
         </label>
       </div>
 
-      <AdditionalInfo :price="price" />
+      <AdditionalInfo :price="price"/>
 
       <div v-if="errors.length" class="content">
         Prosím opravte:
         <ul>
-          <li v-for="error in errors" :key="error" class="has-text-danger">
-            {{ error }}
-          </li>
+          <li v-for="error in errors" :key="error" class="has-text-danger">{{ error }}</li>
         </ul>
       </div>
 
       <div class="field has-text-centered">
-        <input type="submit" class="button is-info" value="Odeslat přihlášku" />
+        <input type="submit" class="button is-info" value="Odeslat přihlášku">
       </div>
     </form>
   </section>
@@ -246,6 +238,7 @@
 
 <script>
 import AdditionalInfo from './AdditionalInfo.vue'
+import { db } from '../firebase'
 
 export default {
   name: 'ApplicationForm',
@@ -258,7 +251,6 @@ export default {
     isSaleGroupMember: Boolean,
     forPrint: Boolean,
     eventId: String,
-    db: Object,
   },
   watch: {
     price: function(newVal) {
@@ -349,8 +341,7 @@ export default {
         deleted: false,
         attendee: this.attendee,
       }
-      this.db
-        .collection('events')
+      db.collection('events')
         .doc(this.eventId)
         .collection('applications')
         .add(doc)

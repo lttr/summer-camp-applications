@@ -65,7 +65,8 @@
 </template>
 
 <script>
-import { initializeDatabase, initializeFunctions } from '../firebase'
+import { db, functions } from '../firebase'
+import { getApplicationsForEvent } from '../services/ApplicationsService'
 
 export default {
   name: 'CampAdmin',
@@ -81,7 +82,7 @@ export default {
   },
   methods: {
     resetApplicationsOrder() {
-      const resetApplicationsOrder = initializeFunctions().httpsCallable('resetApplicationsOrder')
+      const resetApplicationsOrder = functions.httpsCallable('resetApplicationsOrder')
       resetApplicationsOrder({ eventId: this.eventId })
     },
     editFinalPrice(id) {
@@ -103,11 +104,14 @@ export default {
               .doc(doc.id)
 
             const application = this.applications.find(a => a.id === doc.id)
+
+            const finalPrice =
+              application.finalPrice != undefined
+                ? application.finalPrice
+                : application.attendee.price
+            this.$set(application, 'finalPrice', finalPrice)
             return applicationRef.update({
-              finalPrice:
-                application.finalPrice != undefined
-                  ? application.finalPrice
-                  : application.attendee.price,
+              finalPrice,
             })
           })
         })
@@ -115,23 +119,15 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     const eventId = to.params.event
-    const db = initializeDatabase()
     db.collection('events')
       .doc(eventId)
       .get()
       .then(doc => {
         if (doc.exists) {
           next(vm => {
-            db.collection('events')
-              .doc(eventId)
-              .collection('applications')
-              .get()
-              .then(querySnapshot => {
-                vm.applications = querySnapshot.docs
-                  .map(x => ({ id: x.id, ...x.data() }))
-                  .filter(x => !x.deleted)
-                  .sort((a, b) => a.created.seconds - b.created.seconds)
-              })
+            getApplicationsForEvent(eventId).then(applications => {
+              vm.applications = applications
+            })
             vm.eventId = eventId
             vm.eventName = doc.data().name
             vm.nothing = false

@@ -1,21 +1,20 @@
 <template>
   <div class="wrapper">
     <main class="main box">
-      <Logo />
+      <Logo/>
       <div v-if="navigationFailed">
-        <Heading title="Přihlášky na tábor" subtitle="Akce nebyla nalezena" />
+        <Heading title="Přihlášky na tábor" subtitle="Akce nebyla nalezena"/>
       </div>
       <div v-if="!navigationFailed">
-        <Heading :title="titulek" :subtitle="podtitulek" />
-        <InitialText :text="uvodniText" />
-        <CampInfo :price="price" :term="term" />
+        <Heading :title="titulek" :subtitle="podtitulek"/>
+        <InitialText :text="uvodniText"/>
+        <CampInfo :price="price" :term="term"/>
         <ApplicationForm
           :isSaleSiblings="isSaleSiblings"
           :isSaleGroupMember="isSaleGroupMember"
           :price="price"
           :forPrint="forPrint"
           :eventId="eventId"
-          :db="db"
           @sale-siblings-change="isSaleSiblings = $event"
           @sale-group-member-change="isSaleGroupMember = $event"
         />
@@ -34,9 +33,7 @@ import Heading from '../components/Heading.vue'
 import InitialText from '../components/InitialText.vue'
 import Logo from '../components/Logo.vue'
 import { config } from '../config'
-import { initializeDatabase } from '../firebase.js'
-
-let db = null
+import { db } from '../firebase.js'
 
 export default {
   name: 'Application',
@@ -56,7 +53,6 @@ export default {
       forPrint: false,
       eventId: null,
       navigationFailed: false,
-      db: null,
     }
   },
   computed: {
@@ -73,9 +69,6 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     const eventId = to.params.event
-    if (!db) {
-      db = initializeDatabase()
-    }
     db.collection('events')
       .doc(eventId)
       .get()
@@ -84,7 +77,6 @@ export default {
           next(vm => {
             vm.eventId = eventId
             vm.navigationFailed = false
-            vm.db = db
           })
         } else {
           next(vm => (vm.navigationFailed = true))
