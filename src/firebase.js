@@ -12,39 +12,50 @@ const firebaseConfigDev = {
   messagingSenderId: '747153391031',
 }
 
-export let firebase = null
+export let db = null
+export let functions = null
+export let auth = null
 
 export async function initializeFirebase() {
+  const firebaseInstance = await initializeFirebaseConfig()
+  db = initializeDatabase(firebaseInstance)
+  functions = initializeFunctions(firebaseInstance)
+  auth = initializeAuth(firebaseInstance)
+}
+
+async function initializeFirebaseConfig() {
   if (process.env.NODE_ENV === 'production') {
     // when vue cli built the project then firebase hosting is expected
     const response = await fetch('/__/firebase/init.json')
     const config = await response.json()
-    firebase = firebaseApp.initializeApp(config)
+    return firebaseApp.initializeApp(config)
   } else {
-    firebase = firebaseApp.initializeApp(firebaseConfigDev)
+    return firebaseApp.initializeApp(firebaseConfigDev)
   }
 }
 
-export let db = null
+function initializeDatabase(firebase) {
+  return firebase.firestore()
+}
 
-export function initializeDatabase() {
-  db = firebase.firestore()
+function initializeFunctions(firebase) {
+  return firebase.functions()
+}
+
+function initializeAuth(firebase) {
+  return firebase.auth()
 }
 
 export async function signInWithFirebase() {
   const provider = new firebaseApp.auth.GoogleAuthProvider()
-  const result = await firebase.auth().signInWithPopup(provider)
+  const result = await auth.signInWithPopup(provider)
   return result
 }
 
 export function signOut() {
-  firebase.auth().signOut()
+  auth.signOut()
 }
 
 export function currentUser() {
-  return firebase.auth().currentUser
-}
-
-export function initializeFunctions() {
-  return firebase.functions()
+  return auth.currentUser
 }
