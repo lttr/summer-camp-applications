@@ -1,6 +1,7 @@
 <template>
   <section class="wrapper">
     <h1 class="title">Přihlášky - {{ eventName }}</h1>
+    <PaymentLetter v-if="paymentLetterId" :application="paymentLetterApplication"/>
     <p class="buttons">
       <button class="button" @click="resetApplicationsOrder">Reset order</button>
       <button class="button" @click="generateVariableSymbols">Generovat variabilní symboly</button>
@@ -8,6 +9,7 @@
     <table class="table is-narrow">
       <thead>
         <tr>
+          <th></th>
           <th>Pořadí</th>
           <th>Datum přihlášky</th>
           <th>Jméno</th>
@@ -38,6 +40,13 @@
       </thead>
       <tbody>
         <tr v-bind:key="application.id" v-for="application in applications">
+          <td>
+            <button
+              class="action-icon"
+              title="Zobrazit dopis s platbou"
+              @click="showPaymentLetter(application)"
+            >💲</button>
+          </td>
           <td>{{ application.order }}</td>
           <td class="no-break">{{ application.created.toDate() | czechDate }}</td>
           <td>{{ application.attendee.name }}</td>
@@ -73,9 +82,13 @@
 import { differenceInCalendarDays } from 'date-fns'
 import { db, functions } from '../firebase'
 import { getApplicationsForEvent } from '../services/ApplicationsService'
+import PaymentLetter from '../components/PaymentLetter.vue'
 
 export default {
   name: 'CampAdmin',
+  components: {
+    PaymentLetter,
+  },
   data() {
     return {
       nothing: false,
@@ -84,6 +97,8 @@ export default {
       applications: [],
       db: null,
       isEditingFinalPrice: false,
+      paymentLetterId: null,
+      paymentLetterApplication: null,
     }
   },
   methods: {
@@ -97,6 +112,14 @@ export default {
     },
     editFinalPrice(id) {
       this.isEditingFinalPrice = true
+    },
+    showPaymentLetter(application) {
+      if (this.paymentLetterId === application.id) {
+        this.paymentLetterId = null
+      } else {
+        this.paymentLetterId = application.id
+        this.paymentLetterApplication = application
+      }
     },
     computeAge(birthNumber) {
       const yearNumber = parseInt(birthNumber.substr(0, 2), 10)
