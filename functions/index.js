@@ -12,6 +12,7 @@ exports.createApplication = functions.firestore
     return snapshot.ref.set(
       {
         order: count,
+        variableSymbol: variableSymbol(count),
       },
       { merge: true }
     )
@@ -47,3 +48,27 @@ exports.resetApplicationsOrder = functions.https.onCall((data, context) => {
       })
     })
 })
+
+exports.generateVariableSymbols = functions.https.onCall((data, context) => {
+  admin.initializeApp(functions.config().firebase)
+  admin
+    .firestore()
+    .collection('events')
+    .doc(data.eventId)
+    .collection('applications')
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.docs.forEach(doc => {
+        doc.ref.set(
+          {
+            variableSymbol: variableSymbol(doc.data().order),
+          },
+          { merge: true }
+        )
+      })
+    })
+})
+
+function variableSymbol(order) {
+  return '24' + order.toString().padStart(3, '0')
+}

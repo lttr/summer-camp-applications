@@ -3,6 +3,7 @@
     <h1 class="title">Přihlášky - {{ eventName }}</h1>
     <p class="buttons">
       <button class="button" @click="resetApplicationsOrder">Reset order</button>
+      <button class="button" @click="generateVariableSymbols">Generovat variabilní symboly</button>
     </p>
     <table class="table is-narrow">
       <thead>
@@ -21,6 +22,7 @@
           <th>Příjmení otce</th>
           <th>Telefon otce</th>
           <th>Email otce</th>
+          <th>Variabilní symbol</th>
           <th>Požadovaná cena</th>
           <th>
             Konečná cena
@@ -49,6 +51,7 @@
           <td>{{ application.attendee.fatherSurname }}</td>
           <td>{{ application.attendee.fatherTel }}</td>
           <td>{{ application.attendee.fatherEmail }}</td>
+          <td>{{ application.variableSymbol }}</td>
           <td>{{ application.attendee.price }}</td>
           <td>
             <div v-if="isEditingFinalPrice">
@@ -84,6 +87,10 @@ export default {
     resetApplicationsOrder() {
       const resetApplicationsOrder = functions.httpsCallable('resetApplicationsOrder')
       resetApplicationsOrder({ eventId: this.eventId })
+    },
+    generateVariableSymbols() {
+      const generateVariableSymbols = functions.httpsCallable('generateVariableSymbols')
+      generateVariableSymbols({ eventId: this.eventId })
     },
     editFinalPrice(id) {
       this.isEditingFinalPrice = true
