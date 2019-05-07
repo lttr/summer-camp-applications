@@ -9,9 +9,10 @@
       <thead>
         <tr>
           <th>Pořadí</th>
-          <th>Datum</th>
+          <th>Datum přihlášky</th>
           <th>Jméno</th>
           <th>Příjmení</th>
+          <th>Věk</th>
           <th>Rodné číslo</th>
           <th>Adresa</th>
           <th>Jméno matky</th>
@@ -25,7 +26,7 @@
           <th>Variabilní symbol</th>
           <th>Požadovaná cena</th>
           <th>
-            Konečná cena
+            <span>Konečná cena</span>
             <span v-if="isEditingFinalPrice">
               <button class="action-icon" title="ok" @click="submitFinalPrice">✔️</button>
             </span>
@@ -38,18 +39,19 @@
       <tbody>
         <tr v-bind:key="application.id" v-for="application in applications">
           <td>{{ application.order }}</td>
-          <td>{{ new Intl.DateTimeFormat('cs-CZ').format(application.created.toDate()) }}</td>
+          <td class="no-break">{{ application.created.toDate() | czechDate }}</td>
           <td>{{ application.attendee.name }}</td>
           <td>{{ application.attendee.surname }}</td>
+          <td>{{ computeAge(application.attendee.birthNumber) | czechNumber }}</td>
           <td>{{ application.attendee.birthNumber }}</td>
           <td>{{ application.attendee.address }}</td>
           <td>{{ application.attendee.motherName }}</td>
           <td>{{ application.attendee.motherSurname }}</td>
-          <td>{{ application.attendee.motherTel }}</td>
+          <td class="no-break">{{ application.attendee.motherTel | phoneNumber }}</td>
           <td>{{ application.attendee.motherEmail }}</td>
           <td>{{ application.attendee.fatherName }}</td>
           <td>{{ application.attendee.fatherSurname }}</td>
-          <td>{{ application.attendee.fatherTel }}</td>
+          <td class="no-break">{{ application.attendee.fatherTel | phoneNumber }}</td>
           <td>{{ application.attendee.fatherEmail }}</td>
           <td>{{ application.variableSymbol }}</td>
           <td>{{ application.attendee.price }}</td>
@@ -68,6 +70,7 @@
 </template>
 
 <script>
+import { differenceInCalendarDays } from 'date-fns'
 import { db, functions } from '../firebase'
 import { getApplicationsForEvent } from '../services/ApplicationsService'
 
@@ -94,6 +97,15 @@ export default {
     },
     editFinalPrice(id) {
       this.isEditingFinalPrice = true
+    },
+    computeAge(birthNumber) {
+      const yearNumber = parseInt(birthNumber.substr(0, 2), 10)
+      const year = yearNumber < 70 ? yearNumber + 2000 : yearNumber + 1900
+      const month = parseInt(birthNumber.substr(2, 2), 10)
+      const day = parseInt(birthNumber.substr(4, 2), 10)
+      const birthDate = new Date(year, month, day)
+      const today = new Date()
+      return (differenceInCalendarDays(today, birthDate) / 365).toFixed(1)
     },
     submitFinalPrice(newPrice) {
       this.isEditingFinalPrice = false
@@ -148,6 +160,21 @@ export default {
         next(vm => (vm.nothing = true))
       })
   },
+  filters: {
+    czechDate(value) {
+      return new Intl.DateTimeFormat('cs-CZ').format(value)
+    },
+    czechNumber(value) {
+      return new Intl.NumberFormat('cs-CZ').format(value)
+    },
+    phoneNumber(value) {
+      if (value) {
+        const number = value.replace(/\s*/g, '')
+        const parts = [number.substr(0, 3), number.substr(3, 3), number.substr(6, 3)]
+        return parts.join(' ')
+      }
+    },
+  },
 }
 </script>
 
@@ -166,5 +193,8 @@ export default {
 }
 .final-price-input {
   display: inline-block;
+}
+.no-break {
+  white-space: nowrap;
 }
 </style>
