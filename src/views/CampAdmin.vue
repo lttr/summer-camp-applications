@@ -1,15 +1,17 @@
 <template>
   <section class="wrapper">
     <h1 class="title">Přihlášky - {{ eventName }}</h1>
-    <PaymentLetter v-if="paymentLetterId" :application="paymentLetterApplication"/>
+    <Modal v-if="paymentLetterId" @close="paymentLetterId = null">
+      <PaymentLetter slot="body" v-if="paymentLetterId" :application="paymentLetterApplication"/>
+    </Modal>
     <p class="buttons">
-      <button class="button" @click="resetApplicationsOrder">Reset order</button>
+      <button class="button" @click="resetApplicationsOrder">Resetovat pořadí</button>
       <button class="button" @click="generateVariableSymbols">Generovat variabilní symboly</button>
     </p>
     <table class="table is-narrow">
       <thead>
         <tr>
-          <th></th>
+          <th>Akce</th>
           <th>Pořadí</th>
           <th>Datum přihlášky</th>
           <th>Jméno</th>
@@ -83,11 +85,13 @@ import { differenceInCalendarDays } from 'date-fns'
 import { db, functions } from '../firebase'
 import { getApplicationsForEvent } from '../services/ApplicationsService'
 import PaymentLetter from '../components/PaymentLetter.vue'
+import Modal from '../components/Modal.vue'
 
 export default {
   name: 'CampAdmin',
   components: {
     PaymentLetter,
+    Modal,
   },
   data() {
     return {
@@ -207,7 +211,13 @@ export default {
   margin: 2rem 1.5rem;
 }
 .buttons {
-  padding-bottom: 0.3rem;
+  display: flex;
+  padding: 0.3rem;
+  margin-bottom: 0.3rem;
+  background-color: #f3f3f3;
+}
+.buttons .button {
+  margin: 0.5rem;
 }
 .action-icon {
   background: none;
@@ -219,5 +229,9 @@ export default {
 }
 .no-break {
   white-space: nowrap;
+}
+.table {
+  overflow-x: scroll;
+  display: block;
 }
 </style>
