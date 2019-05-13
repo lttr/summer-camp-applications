@@ -1,10 +1,12 @@
 <template>
   <section class="content letter">
+    <a target="_blank" :href="mailto">Připravit email</a>
+    <hr>
     <h2>Adresáti</h2>
     <p>{{ emails }}</p>
     <hr>
     <h2>Předmět</h2>
-    <p>skaut - informace k platbě táborového poplatku</p>
+    <p>{{ subject }}</p>
     <hr>
     <h2>Dopis</h2>
 
@@ -45,6 +47,7 @@
 
 <script>
 import { URLSearchParams } from 'url'
+
 export default {
   name: 'PaymentLetter',
   props: {
@@ -58,6 +61,7 @@ export default {
       dueDate: '31. května',
       accountNumber: '2501518851',
       bankNumber: '2010',
+      subject: 'skaut - informace k platbě táborového poplatku',
     }
   },
   computed: {
@@ -82,6 +86,9 @@ export default {
       const father = this.application.attendee.fatherEmail
       return [mother, father].filter(x => x).join(', ')
     },
+    mailto() {
+      return `mailto:${this.emails}?subject=${this.subject}`
+    },
   },
 }
 </script>
@@ -89,7 +96,7 @@ export default {
 <style scoped>
 .letter p {
   font: Arial, Helvetica, sans-serif;
-  font-size: smaller;
+  font-size: medium;
   line-height: 1.5;
 }
 </style>
