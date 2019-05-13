@@ -2,6 +2,7 @@
   <section class="wrapper">
     <h1 class="title">Přihlášky - {{ eventName }}</h1>
     <Modal v-if="paymentLetterId" @close="paymentLetterId = null">
+      <span slot="header">Platební údaje</span>
       <PaymentLetter slot="body" v-if="paymentLetterId" :application="paymentLetterApplication"/>
     </Modal>
     <p class="buttons">
@@ -11,7 +12,6 @@
     <table class="table is-narrow">
       <thead>
         <tr>
-          <th>Akce</th>
           <th>Pořadí</th>
           <th>Datum přihlášky</th>
           <th>Jméno</th>
@@ -38,17 +38,14 @@
               <button class="action-icon" title="edit" @click="editFinalPrice">✏️</button>
             </span>
           </th>
+          <th>Údaje k platbě</th>
+          <th>Údaje odeslány</th>
+          <th>Zaplaceno</th>
+          <th>Info odesláno</th>
         </tr>
       </thead>
       <tbody>
         <tr v-bind:key="application.id" v-for="application in applications">
-          <td>
-            <button
-              class="action-icon"
-              title="Zobrazit dopis s platbou"
-              @click="showPaymentLetter(application)"
-            >💲</button>
-          </td>
           <td>{{ application.order }}</td>
           <td class="no-break">{{ application.created.toDate() | czechDate }}</td>
           <td>{{ application.attendee.name }}</td>
@@ -73,6 +70,37 @@
             <div v-else>
               <span class="final-price-text">{{ application.finalPrice }}</span>
             </div>
+          </td>
+          <td>
+            <button
+              class="action-icon"
+              title="Zobrazit dopis s platbou"
+              @click="showPaymentLetter(application)"
+            >💲</button>
+          </td>
+          <td>
+            <!-- Údaje odeslány -->
+            <input
+              type="checkbox"
+              v-model="application.paymentInfoSent"
+              @change="setPaymentInfoSent(application, $event)"
+            >
+          </td>
+          <td>
+            <!-- Zaplaceno -->
+            <input
+              type="checkbox"
+              :checked="application.paid"
+              @change="setPaid(application, $event)"
+            >
+          </td>
+          <td>
+            <!-- Detailní info odesláno -->
+            <input
+              type="checkbox"
+              :checked="application.detailedInfoSent"
+              @change="setDetailedInfoSent(application, $event)"
+            >
           </td>
         </tr>
       </tbody>
@@ -160,6 +188,42 @@ export default {
               finalPrice,
             })
           })
+        })
+    },
+    async setPaymentInfoSent(application, event) {
+      const paymentInfoSent = event.target.checked
+      application.paymentInfoSent = paymentInfoSent
+      await this.db
+        .collection('events')
+        .doc(this.eventId)
+        .collection('applications')
+        .doc(application.id)
+        .update({
+          paymentInfoSent,
+        })
+    },
+    async setPaid(event) {
+      const paid = event.target.checked
+      application.paid = paid
+      await this.db
+        .collection('events')
+        .doc(this.eventId)
+        .collection('applications')
+        .doc(application.id)
+        .update({
+          paid,
+        })
+    },
+    async setDetailedInfoSent(event) {
+      const detailedInfoSent = event.target.checked
+      application.detailedInfoSent = detailedInfoSent
+      await this.db
+        .collection('events')
+        .doc(this.eventId)
+        .collection('applications')
+        .doc(application.id)
+        .update({
+          detailedInfoSent,
         })
     },
   },
