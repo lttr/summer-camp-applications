@@ -3,7 +3,7 @@
     <h1 class="title">Přihlášky - {{ eventName }}</h1>
     <Modal v-if="paymentLetterId" @close="paymentLetterId = null">
       <span slot="header">Platební údaje</span>
-      <PaymentLetter slot="body" v-if="paymentLetterId" :application="paymentLetterApplication"/>
+      <PaymentLetter slot="body" v-if="paymentLetterId" :application="paymentLetterApplication" />
     </Modal>
     <p class="buttons">
       <button class="button" @click="resetApplicationsOrder">Resetovat pořadí</button>
@@ -65,7 +65,7 @@
           <td>{{ application.attendee.price }}</td>
           <td>
             <div v-if="isEditingFinalPrice">
-              <input class="final-price-input" type="number" v-model="application.finalPrice">
+              <input class="final-price-input" type="number" v-model="application.finalPrice" />
             </div>
             <div v-else>
               <span class="final-price-text">{{ application.finalPrice }}</span>
@@ -76,7 +76,9 @@
               class="action-icon"
               title="Zobrazit dopis s platbou"
               @click="showPaymentLetter(application)"
-            >💲</button>
+            >
+              💲
+            </button>
           </td>
           <td>
             <!-- Údaje odeslány -->
@@ -84,7 +86,7 @@
               type="checkbox"
               v-model="application.paymentInfoSent"
               @change="setPaymentInfoSent(application, $event)"
-            >
+            />
           </td>
           <td>
             <!-- Zaplaceno -->
@@ -92,7 +94,7 @@
               type="checkbox"
               :checked="application.paid"
               @change="setPaid(application, $event)"
-            >
+            />
           </td>
           <td>
             <!-- Detailní info odesláno -->
@@ -100,7 +102,7 @@
               type="checkbox"
               :checked="application.detailedInfoSent"
               @change="setDetailedInfoSent(application, $event)"
-            >
+            />
           </td>
         </tr>
       </tbody>
@@ -142,7 +144,7 @@ export default {
       const generateVariableSymbols = functions.httpsCallable('generateVariableSymbols')
       generateVariableSymbols({ eventId: this.eventId })
     },
-    editFinalPrice(id) {
+    editFinalPrice() {
       this.isEditingFinalPrice = true
     },
     showPaymentLetter(application) {
@@ -162,7 +164,7 @@ export default {
       const today = new Date()
       return (differenceInCalendarDays(today, birthDate) / 365).toFixed(1)
     },
-    submitFinalPrice(newPrice) {
+    submitFinalPrice() {
       this.isEditingFinalPrice = false
       this.db
         .collection('events')
@@ -202,7 +204,7 @@ export default {
           paymentInfoSent,
         })
     },
-    async setPaid(event) {
+    async setPaid(application, event) {
       const paid = event.target.checked
       application.paid = paid
       await this.db
@@ -214,7 +216,7 @@ export default {
           paid,
         })
     },
-    async setDetailedInfoSent(event) {
+    async setDetailedInfoSent(application, event) {
       const detailedInfoSent = event.target.checked
       application.detailedInfoSent = detailedInfoSent
       await this.db

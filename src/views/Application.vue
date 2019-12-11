@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
     <main class="main box">
-      <Logo/>
+      <Logo />
       <div v-if="navigationFailed">
-        <Heading title="Přihlášky na tábor" subtitle="Akce nebyla nalezena"/>
+        <Heading title="Přihlášky na tábor" subtitle="Akce nebyla nalezena" />
       </div>
       <div v-if="!navigationFailed">
-        <Heading :title="titulek" :subtitle="podtitulek"/>
-        <InitialText :text="uvodniText"/>
-        <CampInfo :price="price" :term="term"/>
+        <Heading :title="titulek" :subtitle="podtitulek" />
+        <InitialText :text="uvodniText" />
+        <CampInfo :price="price" :term="term" />
         <ApplicationForm
           :isSaleSiblings="isSaleSiblings"
           :isSaleGroupMember="isSaleGroupMember"
