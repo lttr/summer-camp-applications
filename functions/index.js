@@ -20,7 +20,7 @@ exports.createApplication = functions.firestore
 
 exports.resetApplicationsOrder = functions.https.onCall((data, context) => {
   admin.initializeApp(functions.config().firebase)
-  admin
+  return admin
     .firestore()
     .collection('events')
     .doc(data.eventId)
@@ -51,7 +51,7 @@ exports.resetApplicationsOrder = functions.https.onCall((data, context) => {
 
 exports.generateVariableSymbols = functions.https.onCall((data, context) => {
   admin.initializeApp(functions.config().firebase)
-  admin
+  return admin
     .firestore()
     .collection('events')
     .doc(data.eventId)
