@@ -1,6 +1,8 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
+admin.initializeApp()
+
 exports.createApplication = functions.firestore
   .document('/events/{eventId}/applications/{applicationId}')
   .onCreate(async (snapshot, context) => {
@@ -19,7 +21,6 @@ exports.createApplication = functions.firestore
   })
 
 exports.resetApplicationsOrder = functions.https.onCall((data, context) => {
-  admin.initializeApp(functions.config().firebase)
   return admin
     .firestore()
     .collection('events')
@@ -50,7 +51,6 @@ exports.resetApplicationsOrder = functions.https.onCall((data, context) => {
 })
 
 exports.generateVariableSymbols = functions.https.onCall((data, context) => {
-  admin.initializeApp(functions.config().firebase)
   return admin
     .firestore()
     .collection('events')
