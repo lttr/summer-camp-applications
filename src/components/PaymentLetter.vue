@@ -22,10 +22,12 @@
     <p>
       Prosím Vás o úhradu táborového poplatku ve výši
       <strong>{{ application.finalPrice }},- Kč</strong> bankovním převodem. Splatnost je do
-      <strong>{{ dueDate }}</strong>. Číslo účtu je
+      <strong>{{ dueDate }}</strong
+      >. Číslo účtu je
       <strong>{{ accountNumber }}/{{ bankNumber }}</strong>
       (účet našeho skautského střediska), variabilní symbol
-      <strong>{{ application.variableSymbol }}</strong>.
+      <strong>{{ application.variableSymbol }}</strong
+      >.
     </p>
     <p>
       Zaplatit můžete i přes Vaši bankovní aplikaci naskenováním tohoto QR kódu:
@@ -36,8 +38,7 @@
     <p>Lukáš Trumm</p>
     <p>
       vedoucí 24. skautského oddílu
-      <br />tel: 728 089 065
-      <br />e-mail: lukas.trumm@centrum.cz
+      <br />tel: 728 089 065 <br />e-mail: lukas.trumm@centrum.cz
     </p>
 
     <hr />
