@@ -12,22 +12,20 @@
 
     <p>Vážení rodiče,</p>
     <p>
-      na základě Vámi podané přihlášky Vám sděluji, že přihláška Vašeho syna ({{
-        application.attendee.name
-      }}
-      {{ application.attendee.surname }}) na skautský tábor konaný ve Vranicích u Jarošova – Údolí
-      ozvěny v termínu {{ eventStart }} až {{ eventEnd }} {{ year }} je registrována a považujeme je
-      za závaznou.
+      předně bych Vás chtěl poprosit, abyste mi obratem potvrdili, zda počítáte s účastí Vašeho syna
+      (Vašich synů) na táboře 24. skautského oddílu.
+    </p>
+    <p>
+      Na základě Vámi podané přihlášky na skautský tábor konaný ve Vranicích u Jarošova – Údolí
+      ozvěny v termínu {{ eventStart }} až {{ eventEnd }} {{ year }} Vám zasílám informace k platbě.
     </p>
     <p>
       Prosím Vás o úhradu táborového poplatku ve výši
       <strong>{{ application.finalPrice }},- Kč</strong> bankovním převodem. Splatnost je do
-      <strong>{{ dueDate }}</strong
-      >. Číslo účtu je
+      <strong>{{ dueDate }}</strong>. Číslo účtu je
       <strong>{{ accountNumber }}/{{ bankNumber }}</strong>
       (účet našeho skautského střediska), variabilní symbol
-      <strong>{{ application.variableSymbol }}</strong
-      >.
+      <strong>{{ application.variableSymbol }}</strong>.
     </p>
     <p>
       Zaplatit můžete i přes Vaši bankovní aplikaci naskenováním tohoto QR kódu:
@@ -38,7 +36,8 @@
     <p>Lukáš Trumm</p>
     <p>
       vedoucí 24. skautského oddílu
-      <br />tel: 728 089 065 <br />e-mail: lukas.trumm@centrum.cz
+      <br />tel: 728 089 065
+      <br />e-mail: lukas.trumm@centrum.cz
     </p>
 
     <hr />
@@ -53,10 +52,10 @@ export default {
   },
   data() {
     return {
-      eventStart: '29. 6.',
-      eventEnd: '14. 7.',
-      year: '2019',
-      dueDate: '31. května',
+      eventStart: '4. 7.',
+      eventEnd: '19. 7.',
+      year: '2020',
+      dueDate: '15. června',
       accountNumber: '2501518851',
       bankNumber: '2010',
       subject: 'skaut - informace k platbě táborového poplatku',
