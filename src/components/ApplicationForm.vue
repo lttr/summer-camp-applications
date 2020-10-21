@@ -259,7 +259,7 @@ export default {
     eventId: String,
   },
   watch: {
-    price: function(newVal) {
+    price: function (newVal) {
       this.attendee.price = newVal
     },
   },
@@ -360,7 +360,7 @@ export default {
             },
           })
         })
-        .catch(error => {
+        .catch((error) => {
           alert(error)
         })
     },

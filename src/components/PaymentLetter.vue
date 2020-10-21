@@ -82,7 +82,7 @@ export default {
     emails() {
       const mother = this.application.attendee.motherEmail
       const father = this.application.attendee.fatherEmail
-      return [mother, father].filter(x => x).join(', ')
+      return [mother, father].filter((x) => x).join(', ')
     },
     mailto() {
       return `mailto:${this.emails}?subject=${this.subject}`

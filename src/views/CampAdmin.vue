@@ -171,15 +171,15 @@ export default {
         .doc(this.eventId)
         .collection('applications')
         .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
             const applicationRef = this.db
               .collection('events')
               .doc(this.eventId)
               .collection('applications')
               .doc(doc.id)
 
-            const application = this.applications.find(a => a.id === doc.id)
+            const application = this.applications.find((a) => a.id === doc.id)
 
             const finalPrice =
               application.finalPrice != undefined
@@ -234,10 +234,10 @@ export default {
     db.collection('events')
       .doc(eventId)
       .get()
-      .then(doc => {
+      .then((doc) => {
         if (doc.exists) {
-          next(vm => {
-            getApplicationsForEvent(eventId).then(applications => {
+          next((vm) => {
+            getApplicationsForEvent(eventId).then((applications) => {
               vm.applications = applications
             })
             vm.eventId = eventId
@@ -246,11 +246,11 @@ export default {
             vm.db = db
           })
         } else {
-          next(vm => (vm.nothing = true))
+          next((vm) => (vm.nothing = true))
         }
       })
       .catch(() => {
-        next(vm => (vm.nothing = true))
+        next((vm) => (vm.nothing = true))
       })
   },
   filters: {

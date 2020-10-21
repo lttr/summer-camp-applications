@@ -27,19 +27,19 @@ exports.resetApplicationsOrder = functions.https.onCall((data, context) => {
     .doc(data.eventId)
     .collection('applications')
     .get()
-    .then(querySnapshot => {
+    .then((querySnapshot) => {
       const sortedApplications = querySnapshot.docs
-        .map(x => {
+        .map((x) => {
           return { id: x.id, ...x.data() }
         })
         // @ts-ignore
-        .filter(x => !x.deleted)
+        .filter((x) => !x.deleted)
         // @ts-ignore
         .sort((a, b) => a.created.seconds - b.created.seconds)
 
       sortedApplications.forEach((application, index) => {
         querySnapshot.docs
-          .find(doc => doc.id === application.id)
+          .find((doc) => doc.id === application.id)
           .ref.set(
             {
               order: index + 1,
@@ -47,6 +47,7 @@ exports.resetApplicationsOrder = functions.https.onCall((data, context) => {
             { merge: true }
           )
       })
+      return true
     })
 })
 
@@ -57,8 +58,8 @@ exports.generateVariableSymbols = functions.https.onCall((data, context) => {
     .doc(data.eventId)
     .collection('applications')
     .get()
-    .then(querySnapshot => {
-      querySnapshot.docs.forEach(doc => {
+    .then((querySnapshot) => {
+      querySnapshot.docs.forEach((doc) => {
         doc.ref.set(
           {
             variableSymbol: variableSymbol(doc.data().order),
@@ -66,6 +67,8 @@ exports.generateVariableSymbols = functions.https.onCall((data, context) => {
           { merge: true }
         )
       })
+
+      return true
     })
 })
 

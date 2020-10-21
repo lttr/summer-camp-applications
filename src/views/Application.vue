@@ -72,18 +72,18 @@ export default {
     db.collection('events')
       .doc(eventId)
       .get()
-      .then(doc => {
+      .then((doc) => {
         if (doc.exists) {
-          next(vm => {
+          next((vm) => {
             vm.eventId = eventId
             vm.navigationFailed = false
           })
         } else {
-          next(vm => (vm.navigationFailed = true))
+          next((vm) => (vm.navigationFailed = true))
         }
       })
       .catch(() => {
-        next(vm => (vm.navigationFailed = true))
+        next((vm) => (vm.navigationFailed = true))
       })
   },
 }

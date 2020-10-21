@@ -13,11 +13,11 @@ import { signInWithFirebase, signOut } from '../firebase'
 export default {
   name: 'SignIn',
   methods: {
-    signIn: async function() {
+    signIn: async function () {
       await signInWithFirebase()
       this.$router.push(this.$route.query.redirect || '/')
     },
-    signOut: function() {
+    signOut: function () {
       signOut()
     },
   },

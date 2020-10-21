@@ -58,8 +58,8 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  auth.onAuthStateChanged(function(user) {
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  auth.onAuthStateChanged(function (user) {
+    const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
     if (requiresAuth && !user) {
       next({ path: '/sign-in', query: { redirect: to.fullPath } })
     } else if (requiresAuth && user) {

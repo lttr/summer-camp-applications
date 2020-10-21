@@ -6,10 +6,10 @@ export function getApplicationsForEvent(eventId) {
     .doc(eventId)
     .collection('applications')
     .get()
-    .then(querySnapshot => {
+    .then((querySnapshot) => {
       return querySnapshot.docs
-        .map(x => ({ id: x.id, ...x.data() }))
-        .filter(x => !x.deleted)
+        .map((x) => ({ id: x.id, ...x.data() }))
+        .filter((x) => !x.deleted)
         .sort((a, b) => a.created.seconds - b.created.seconds)
     })
 }

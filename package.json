@@ -13,36 +13,45 @@
     "bulma": "^0.9.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
-    "firebase": "^7.23.0",
+    "firebase": "^7.24.0",
     "vue": "^2.6.12",
-    "vue-router": "^3.4.6"
+    "vue-router": "^3.4.7"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.7",
-    "@vue/cli-plugin-eslint": "^4.5.7",
-    "@vue/cli-service": "^4.5.7",
+    "@vue/cli-plugin-babel": "^4.5.8",
+    "@vue/cli-plugin-eslint": "^4.5.8",
+    "@vue/cli-service": "^4.5.8",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.11.0",
-    "eslint-config-prettier": "^6.12.0",
+    "eslint-config-prettier": "^6.13.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-vue": "^7.0.1",
-    "firebase-tools": "^8.12.1",
+    "eslint-plugin-vue": "^7.1.0",
+    "firebase-tools": "^8.13.0",
+    "prettier": "^2.1.2",
     "vue-template-compiler": "^2.6.12"
   },
   "eslintConfig": {
     "root": true,
-    "env": {
-      "node": true
-    },
     "extends": [
       "plugin:vue/essential",
       "plugin:prettier/recommended",
       "eslint:recommended"
     ],
-    "rules": {},
+    "env": {
+      "es6": true,
+      "node": true
+    },
     "parserOptions": {
+      "ecmaVersion": 2019,
+      "sourceType": "module",
       "parser": "babel-eslint"
-    }
+    },
+    "rules": {
+      "prettier/prettier": "error"
+    },
+    "plugins": [
+      "prettier"
+    ]
   },
   "postcss": {
     "plugins": {
@@ -50,8 +59,8 @@
     }
   },
   "browserslist": [
-    "> 1%",
+    "> 2%",
     "last 2 versions",
-    "not ie <= 8"
+    "not IE 11"
   ]
 }

@@ -26,7 +26,7 @@ export default {
     Heading,
     Logo,
   },
-  data: function() {
+  data: function () {
     return {
       ...config,
     }
