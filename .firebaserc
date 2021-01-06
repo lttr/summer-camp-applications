@@ -1,6 +1,7 @@
 {
   "projects": {
     "production": "prihlasky-na-tabor",
-    "development": "summer-camp-applications"
+    "development": "summer-camp-applications",
+    "default": "prihlasky-na-tabor"
   }
 }
