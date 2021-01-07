@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy:dev": "firebase deploy --project development",
-    "deploy:prod": "firebase deploy --project production"
+    "deploy:prod": "firebase deploy --project production",
+    "emulator": "firebase emulators:start --import demodata --export-on-exit"
   },
   "dependencies": {
     "bulma": "^0.9.1",

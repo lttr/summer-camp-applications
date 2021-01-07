@@ -19,6 +19,9 @@ export let auth = null
 export async function initializeFirebase() {
   const firebaseInstance = await initializeFirebaseConfig()
   db = initializeDatabase(firebaseInstance)
+  if (window.location.hostname === 'localhost') {
+    db.useEmulator('localhost', 8080)
+  }
   functions = initializeFunctions(firebaseInstance)
   auth = initializeAuth(firebaseInstance)
 }
