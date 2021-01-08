@@ -3,15 +3,6 @@ import 'firebase/firestore'
 import 'firebase/auth'
 import 'firebase/functions'
 
-const firebaseConfigDev = {
-  apiKey: 'AIzaSyC1LGOMDGQaFbOqr85L4XGERNi3bD7E7sE',
-  authDomain: 'summer-camp-applications.firebaseapp.com',
-  databaseURL: 'https://summer-camp-applications.firebaseio.com',
-  projectId: 'summer-camp-applications',
-  storageBucket: 'summer-camp-applications.appspot.com',
-  messagingSenderId: '747153391031',
-}
-
 export let db = null
 export let functions = null
 export let auth = null
@@ -20,21 +11,17 @@ export async function initializeFirebase() {
   const firebaseInstance = await initializeFirebaseConfig()
   db = initializeDatabase(firebaseInstance)
   if (window.location.hostname === 'localhost') {
-    db.useEmulator('localhost', 8080)
+    db.useEmulator('localhost', 5503)
   }
   functions = initializeFunctions(firebaseInstance)
   auth = initializeAuth(firebaseInstance)
 }
 
 async function initializeFirebaseConfig() {
-  if (process.env.NODE_ENV === 'production') {
-    // when vue cli built the project then firebase hosting is expected
-    const response = await fetch('/__/firebase/init.json')
-    const config = await response.json()
-    return firebaseApp.initializeApp(config)
-  } else {
-    return firebaseApp.initializeApp(firebaseConfigDev)
-  }
+  const url = '/__/firebase/init.json'
+  const response = await fetch(url)
+  const config = await response.json()
+  return firebaseApp.initializeApp(config)
 }
 
 function initializeDatabase(firebase) {

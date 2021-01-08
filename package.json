@@ -3,18 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "build:dev": "vue-cli-service build --mode development",
+    "build:watch": "vue-cli-service build --mode development --watch --no-clean",
     "deploy:dev": "firebase deploy --project development",
     "deploy:prod": "firebase deploy --project production",
-    "emulator": "firebase emulators:start --import demodata --export-on-exit"
+    "emulator": "firebase emulators:start --import demodata --export-on-exit",
+    "lint": "vue-cli-service lint",
+    "serve": "run-s build:dev watch",
+    "serve:firebase": "firebase serve",
+    "serve:vue": "vue-cli-service serve --port 3000",
+    "start": "npm run serve",
+    "watch": "run-p build:watch serve:firebase serve:vue"
   },
   "dependencies": {
     "bulma": "^0.9.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "firebase": "^8.2.1",
+    "firebaseui": "^4.7.1",
     "vue": "^2.6.12",
     "vue-router": "^3.4.7"
   },
@@ -28,6 +35,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^7.1.0",
     "firebase-tools": "^9.1.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
     "vue-template-compiler": "^2.6.12"
   },
@@ -48,7 +56,8 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "prettier/prettier": "error"
+      "prettier/prettier": "error",
+      "no-unused-vars": "warn"
     },
     "plugins": [
       "prettier"

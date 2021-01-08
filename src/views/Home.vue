@@ -9,6 +9,11 @@
     </main>
     <section class="has-text-centered">
       <p>
+        <router-link to="/sign-in">Přihlásit se</router-link>
+      </p>
+    </section>
+    <section class="has-text-centered">
+      <p>
         <router-link to="/admin" class="has-text-light">administrace</router-link>
       </p>
     </section>
