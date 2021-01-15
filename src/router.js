@@ -30,6 +30,9 @@ const router = new Router({
       path: '/admin',
       name: 'OrgAdmin',
       component: OrgAdmin,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/t/:event/prihlaska',

@@ -42,7 +42,7 @@ export async function signInWithFirebase() {
   return result
 }
 
-export function signOut() {
+export async function signOut() {
   auth.signOut()
 }
 

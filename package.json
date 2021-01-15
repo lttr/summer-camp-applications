@@ -8,15 +8,17 @@
     "build:watch": "vue-cli-service build --mode development --watch --no-clean",
     "deploy:dev": "firebase deploy --project development",
     "deploy:prod": "firebase deploy --project production",
-    "emulator": "firebase emulators:start --import demodata --export-on-exit",
+    "emulators": "firebase emulators:start --import demodata",
+    "emulators:export": "firebase emulators:start --import demodata --export-on-exit",
     "lint": "vue-cli-service lint",
     "serve": "run-s build:dev watch",
     "serve:firebase": "firebase serve",
     "serve:vue": "vue-cli-service serve --port 3000",
     "start": "npm run serve",
-    "watch": "run-p build:watch serve:firebase serve:vue"
+    "watch": "run-p -l emulators build:watch serve:vue"
   },
   "dependencies": {
+    "@lttr/skaut-design": "^0.1.4",
     "bulma": "^0.9.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
