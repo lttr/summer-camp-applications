@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRIHLASKY_NA_TABOR }}
+          service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BACKUP_FIRESTORE }}
           export_default_credentials: true
       - run: gcloud info
       - run: gcloud config set project $PROJECT_ID
