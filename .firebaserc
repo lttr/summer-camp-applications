@@ -1,5 +1,5 @@
 {
   "projects": {
-    "production": "prihlasky-na-tabor",
+    "default": "prihlasky-na-tabor"
   }
 }
