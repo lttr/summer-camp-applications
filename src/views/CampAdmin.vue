@@ -1,135 +1,155 @@
 <template>
-  <section class="wrapper">
-    <h1 class="title">Přihlášky - {{ eventName }}</h1>
-    <Modal v-if="paymentLetterId" @close="paymentLetterId = null">
-      <span slot="header">Platební údaje</span>
-      <PaymentLetter slot="body" v-if="paymentLetterId" :application="paymentLetterApplication" />
-    </Modal>
-    <p class="buttons">
-      <button class="button" @click="resetApplicationsOrder">Resetovat pořadí</button>
-      <button class="button" @click="generateVariableSymbols">Generovat variabilní symboly</button>
-    </p>
-    <table class="table is-narrow">
-      <thead>
-        <tr>
-          <th>Pořadí</th>
-          <th>Datum přihlášky</th>
-          <th>Jméno</th>
-          <th>Příjmení</th>
-          <th>Věk</th>
-          <th>Rodné číslo</th>
-          <th>Adresa</th>
-          <th>Jméno matky</th>
-          <th>Příjmení matky</th>
-          <th>Telefon matky</th>
-          <th>Email matky</th>
-          <th>Jméno otce</th>
-          <th>Příjmení otce</th>
-          <th>Telefon otce</th>
-          <th>Email otce</th>
-          <th>Variabilní symbol</th>
-          <th>Požadovaná cena</th>
-          <th>
-            <span>Konečná cena</span>
-            <span v-if="isEditingFinalPrice">
-              <button class="action-icon" title="ok" @click="submitFinalPrice">✔️</button>
-            </span>
-            <span v-else>
-              <button class="action-icon" title="edit" @click="editFinalPrice">✏️</button>
-            </span>
-          </th>
-          <th>Údaje k platbě</th>
-          <th>Údaje odeslány</th>
-          <th>Zaplaceno</th>
-          <th>Info odesláno</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-bind:key="application.id" v-for="application in applications">
-          <td>{{ application.order }}</td>
-          <td class="no-break">{{ application.created.toDate() | czechDate }}</td>
-          <td>{{ application.attendee.name }}</td>
-          <td>{{ application.attendee.surname }}</td>
-          <td>{{ computeAge(application.attendee.birthNumber) | czechNumber }}</td>
-          <td>{{ application.attendee.birthNumber }}</td>
-          <td>{{ application.attendee.address }}</td>
-          <td>{{ application.attendee.motherName }}</td>
-          <td>{{ application.attendee.motherSurname }}</td>
-          <td class="no-break">{{ application.attendee.motherTel | phoneNumber }}</td>
-          <td>{{ application.attendee.motherEmail }}</td>
-          <td>{{ application.attendee.fatherName }}</td>
-          <td>{{ application.attendee.fatherSurname }}</td>
-          <td class="no-break">{{ application.attendee.fatherTel | phoneNumber }}</td>
-          <td>{{ application.attendee.fatherEmail }}</td>
-          <td>{{ application.variableSymbol }}</td>
-          <td>{{ application.attendee.price }}</td>
-          <td>
-            <div v-if="isEditingFinalPrice">
-              <input class="final-price-input" type="number" v-model="application.finalPrice" />
-            </div>
-            <div v-else>
-              <span class="final-price-text">{{ application.finalPrice }}</span>
-            </div>
-          </td>
-          <td>
-            <button
-              class="action-icon"
-              title="Zobrazit dopis s platbou"
-              @click="showPaymentLetter(application)"
-            >
-              💲
-            </button>
-          </td>
-          <td>
-            <!-- Údaje odeslány -->
-            <input
-              type="checkbox"
-              v-model="application.paymentInfoSent"
-              @change="setPaymentInfoSent(application, $event)"
-            />
-          </td>
-          <td>
-            <!-- Zaplaceno -->
-            <input
-              type="checkbox"
-              :checked="application.paid"
-              @change="setPaid(application, $event)"
-            />
-          </td>
-          <td>
-            <!-- Detailní info odesláno -->
-            <input
-              type="checkbox"
-              :checked="application.detailedInfoSent"
-              @change="setDetailedInfoSent(application, $event)"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+  <PageWithBar>
+    <div class="container has-text-centered">
+      <h1 class="title">Přihlášky - {{ eventName }}</h1>
+    </div>
+
+    <section class="section" v-if="isAdmin">
+      <Modal v-if="paymentLetterId" @close="paymentLetterId = null">
+        <span slot="header">Platební údaje</span>
+        <PaymentLetter slot="body" v-if="paymentLetterId" :application="paymentLetterApplication" />
+      </Modal>
+
+      <p class="buttons">
+        <button class="button is-light" @click="resetApplicationsOrder">Resetovat pořadí</button>
+        <button class="button is-light" @click="generateVariableSymbols">
+          Generovat variabilní symboly
+        </button>
+        <button class="button is-light" @click="refreshApplications">Znovu načíst</button>
+      </p>
+      <table class="table is-narrow">
+        <thead>
+          <tr>
+            <th>Pořadí</th>
+            <th>Datum přihlášky</th>
+            <th>Jméno</th>
+            <th>Příjmení</th>
+            <th>Věk</th>
+            <th>Rodné číslo</th>
+            <th>Adresa</th>
+            <th>Jméno matky</th>
+            <th>Příjmení matky</th>
+            <th>Telefon matky</th>
+            <th>Email matky</th>
+            <th>Jméno otce</th>
+            <th>Příjmení otce</th>
+            <th>Telefon otce</th>
+            <th>Email otce</th>
+            <th>Variabilní symbol</th>
+            <th>Požadovaná cena</th>
+            <th>
+              <span>Konečná cena</span>
+              <span v-if="isEditingFinalPrice">
+                <button class="action-icon" title="ok" @click="submitFinalPrice">✔️</button>
+              </span>
+              <span v-else>
+                <button class="action-icon" title="edit" @click="editFinalPrice">✏️</button>
+              </span>
+            </th>
+            <th>Údaje k platbě</th>
+            <th>Údaje odeslány</th>
+            <th>Zaplaceno</th>
+            <th>Info odesláno</th>
+          </tr>
+        </thead>
+        <tbody v-if="applications && applications.length > 0">
+          <tr v-bind:key="application.id" v-for="application in applications">
+            <td>{{ application.order }}</td>
+            <td class="no-break">{{ application.created.toDate() | czechDate }}</td>
+            <td>{{ application.attendee.name }}</td>
+            <td>{{ application.attendee.surname }}</td>
+            <td>{{ computeAge(application.attendee.birthNumber) | czechNumber }}</td>
+            <td>{{ application.attendee.birthNumber }}</td>
+            <td>{{ application.attendee.address }}</td>
+            <td>{{ application.attendee.motherName }}</td>
+            <td>{{ application.attendee.motherSurname }}</td>
+            <td class="no-break">{{ application.attendee.motherTel | phoneNumber }}</td>
+            <td>{{ application.attendee.motherEmail }}</td>
+            <td>{{ application.attendee.fatherName }}</td>
+            <td>{{ application.attendee.fatherSurname }}</td>
+            <td class="no-break">{{ application.attendee.fatherTel | phoneNumber }}</td>
+            <td>{{ application.attendee.fatherEmail }}</td>
+            <td>{{ application.variableSymbol }}</td>
+            <td>{{ application.attendee.price }}</td>
+            <td>
+              <div v-if="isEditingFinalPrice">
+                <input class="final-price-input" type="number" v-model="application.finalPrice" />
+              </div>
+              <div v-else>
+                <span class="final-price-text">{{ application.finalPrice }}</span>
+              </div>
+            </td>
+            <td>
+              <button
+                class="action-icon"
+                title="Zobrazit dopis s platbou"
+                @click="showPaymentLetter(application)"
+              >
+                💲
+              </button>
+            </td>
+            <td>
+              <!-- Údaje odeslány -->
+              <input
+                type="checkbox"
+                v-model="application.paymentInfoSent"
+                @change="setPaymentInfoSent(application, $event)"
+              />
+            </td>
+            <td>
+              <!-- Zaplaceno -->
+              <input
+                type="checkbox"
+                :checked="application.paid"
+                @change="setPaid(application, $event)"
+              />
+            </td>
+            <td>
+              <!-- Detailní info odesláno -->
+              <input
+                type="checkbox"
+                :checked="application.detailedInfoSent"
+                @change="setDetailedInfoSent(application, $event)"
+              />
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="10">Žádné přihlášky neeviduji</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="section" v-else>
+      <div class="columns is-centered">Musíš být admin abys viděl tento obsah</div>
+    </section>
+  </PageWithBar>
 </template>
 
 <script>
 import { differenceInCalendarDays } from 'date-fns'
 import { db, functions } from '../firebase'
 import { getApplicationsForEvent } from '../services/ApplicationsService'
+import PageWithBar from '../layouts/PageWithBar.vue'
 import PaymentLetter from '../components/PaymentLetter.vue'
 import Modal from '../components/Modal.vue'
+import { authState } from '../auth'
 
 export default {
   name: 'CampAdmin',
   components: {
     PaymentLetter,
     Modal,
+    PageWithBar,
   },
   data() {
     return {
+      isAdmin: authState.isAdmin,
       nothing: false,
       eventId: null,
       eventName: '',
       applications: [],
-      db: null,
       isEditingFinalPrice: false,
       paymentLetterId: null,
       paymentLetterApplication: null,
@@ -139,10 +159,17 @@ export default {
     resetApplicationsOrder() {
       const resetApplicationsOrder = functions.httpsCallable('resetApplicationsOrder')
       resetApplicationsOrder({ eventId: this.eventId })
+      alert('Pořadí přihlášek bude na pozadí přegenerováno.')
     },
     generateVariableSymbols() {
       const generateVariableSymbols = functions.httpsCallable('generateVariableSymbols')
       generateVariableSymbols({ eventId: this.eventId })
+      alert('Variabilní symboly budou na pozadí přegenerovány.')
+    },
+    refreshApplications() {
+      getApplicationsForEvent(this.eventId).then((applications) => {
+        this.applications = applications
+      })
     },
     editFinalPrice() {
       this.isEditingFinalPrice = true
@@ -166,14 +193,13 @@ export default {
     },
     submitFinalPrice() {
       this.isEditingFinalPrice = false
-      this.db
-        .collection('events')
+      db.collection('events')
         .doc(this.eventId)
         .collection('applications')
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            const applicationRef = this.db
+            const applicationRef = db
               .collection('events')
               .doc(this.eventId)
               .collection('applications')
@@ -195,7 +221,7 @@ export default {
     async setPaymentInfoSent(application, event) {
       const paymentInfoSent = event.target.checked
       application.paymentInfoSent = paymentInfoSent
-      await this.db
+      await db
         .collection('events')
         .doc(this.eventId)
         .collection('applications')
@@ -207,7 +233,7 @@ export default {
     async setPaid(application, event) {
       const paid = event.target.checked
       application.paid = paid
-      await this.db
+      await db
         .collection('events')
         .doc(this.eventId)
         .collection('applications')
@@ -219,7 +245,7 @@ export default {
     async setDetailedInfoSent(application, event) {
       const detailedInfoSent = event.target.checked
       application.detailedInfoSent = detailedInfoSent
-      await this.db
+      await db
         .collection('events')
         .doc(this.eventId)
         .collection('applications')
@@ -243,7 +269,6 @@ export default {
             vm.eventId = eventId
             vm.eventName = doc.data().name
             vm.nothing = false
-            vm.db = db
           })
         } else {
           next((vm) => (vm.nothing = true))
@@ -275,15 +300,6 @@ export default {
 .wrapper {
   position: relative;
   margin: 2rem 1.5rem;
-}
-.buttons {
-  display: flex;
-  padding: 0.3rem;
-  margin-bottom: 0.3rem;
-  background-color: #f3f3f3;
-}
-.buttons .button {
-  margin: 0.5rem;
 }
 .action-icon {
   background: none;

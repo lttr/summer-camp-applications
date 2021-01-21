@@ -9,11 +9,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .logo {
-  position: absolute;
-  top: 0.7rem;
-  left: 0.7rem;
   width: 80px;
   height: auto;
 }

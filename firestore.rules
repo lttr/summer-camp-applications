@@ -1,13 +1,22 @@
+rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin(userId) {
+      return exists(/databases/$(database)/documents/admins/$(userId));
+    }
+
+    match /admins/{userId} {
+      allow read;
+    }
 
     match /events/{eventId} {
       allow read;
-      allow write: if request.auth != null && (request.auth.uid == 'jUhGwCo8hLOCtfAb3471hTplPRG3' || request.auth.uid == '1rLkeRVT94gyhgMHwXRvVRucwYu2');
+      allow write: if request.auth != null && isAdmin(request.auth.uid);
 
       match /applications/{applicationId} {
         allow write;
-        allow read: if request.auth != null && (request.auth.uid == 'jUhGwCo8hLOCtfAb3471hTplPRG3' || request.auth.uid == '1rLkeRVT94gyhgMHwXRvVRucwYu2');
+        allow read: if request.auth != null && isAdmin(request.auth.uid);
 
         allow create: if request.resource.data.name != null &&
           request.resource.data.surname != null &&

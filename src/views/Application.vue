@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
     <main class="main box">
-      <Logo />
+      <Logo class="logo-in-application" />
       <div v-if="navigationFailed">
         <Heading title="Přihlášky na tábor" subtitle="Akce nebyla nalezena" />
       </div>
       <div v-if="!navigationFailed">
-        <Heading :title="titulek" :subtitle="podtitulek" />
-        <InitialText :text="uvodniText" />
-        <CampInfo :price="price" :term="term" />
+        <Heading :title="params.titulek" :subtitle="params.podtitulek" />
+        <InitialText :text="params.uvodniText" />
+        <CampInfo :price="price" :term="params.termin" :vudce="params.vudce" />
         <ApplicationForm
           :isSaleSiblings="isSaleSiblings"
           :isSaleGroupMember="isSaleGroupMember"
@@ -32,7 +32,7 @@ import CampInfo from '../components/CampInfo.vue'
 import Heading from '../components/Heading.vue'
 import InitialText from '../components/InitialText.vue'
 import Logo from '../components/Logo.vue'
-import { config } from '../config'
+import { defaultEventParameters } from '../config/defaultEventParameters'
 import { db } from '../firebase.js'
 
 export default {
@@ -46,8 +46,7 @@ export default {
   },
   data() {
     return {
-      ...config,
-      term: config.termin,
+      params: {},
       isSaleSiblings: false,
       isSaleGroupMember: false,
       forPrint: false,
@@ -57,12 +56,12 @@ export default {
   },
   computed: {
     price() {
-      let price = this.cena
+      let price = this.params.cena
       if (this.isSaleSiblings) {
-        price -= this.slevaSourozenci
+        price -= this.params.slevaSourozenci
       }
       if (this.isSaleGroupMember) {
-        price -= this.slevaClenOddilu
+        price -= this.params.slevaClenOddilu
       }
       return price
     },
@@ -77,6 +76,7 @@ export default {
           next((vm) => {
             vm.eventId = eventId
             vm.navigationFailed = false
+            vm.params = doc.data().parameters ?? defaultEventParameters
           })
         } else {
           next((vm) => (vm.navigationFailed = true))
@@ -95,7 +95,13 @@ export default {
   margin: 0 auto;
   position: relative;
 }
+
 section {
   margin: 3rem 1.5rem;
+}
+
+.logo-in-application {
+  position: absolute;
+  top: 0;
 }
 </style>

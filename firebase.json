@@ -18,7 +18,7 @@
     ]
   },
   "emulators": {
-    "auth": {
+    "auth-not-supported-yet": {
       "port": 5501
     },
     "functions": {

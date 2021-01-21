@@ -19,7 +19,8 @@
             <br />
             <span class="info-label">místo konání</span> Vranice u Jarošova
             <br />
-            <span class="info-label">vedoucí tábora</span> Lukáš Trumm
+            <span class="info-label">vedoucí tábora</span>
+            {{ vudce }}
             <br />
             <span class="info-label">cena tábora</span>
             {{ price }},- Kč
@@ -38,6 +39,7 @@ export default {
     subtitle: String,
     price: Number,
     term: String,
+    vudce: String,
   },
 }
 </script>

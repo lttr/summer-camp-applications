@@ -6,8 +6,7 @@
     "build": "vue-cli-service build",
     "build:dev": "vue-cli-service build --mode development",
     "build:watch": "vue-cli-service build --mode development --watch --no-clean",
-    "deploy:dev": "firebase deploy --project development",
-    "deploy:prod": "firebase deploy --project production",
+    "deploy": "firebase deploy",
     "emulators": "firebase emulators:start --import demodata",
     "emulators:export": "firebase emulators:start --import demodata --export-on-exit",
     "lint": "vue-cli-service lint",
@@ -19,7 +18,6 @@
   },
   "dependencies": {
     "@lttr/skaut-design": "^0.1.4",
-    "bulma": "^0.9.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "firebase": "^8.2.1",

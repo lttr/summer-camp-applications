@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <main class="main box">
-      <Logo />
+      <Logo class="logo-in-application" />
       <Heading :title="titulek" :subtitle="podtitulek" />
       <section>
         <p>
@@ -18,7 +18,7 @@
 <script>
 import Heading from '../components/Heading.vue'
 import Logo from '../components/Logo.vue'
-import { config } from '../config'
+import { defaultEventParameters } from '../config/defaultEventParameters'
 
 export default {
   name: 'Confirmation',
@@ -28,7 +28,7 @@ export default {
   },
   data: function () {
     return {
-      ...config,
+      ...defaultEventParameters,
     }
   },
 }
@@ -42,5 +42,9 @@ export default {
 }
 section {
   margin: 3rem 1.5rem;
+}
+.logo-in-application {
+  position: absolute;
+  top: 0;
 }
 </style>
