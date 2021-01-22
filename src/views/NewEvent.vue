@@ -1,7 +1,7 @@
 <template>
   <PageWithBar>
     <div class="container has-text-centered">
-      <h1 class="title">Parametry - {{ eventName }}</h1>
+      <h1 class="title">Nová akce - {{ eventName }}</h1>
     </div>
     <section class="section" v-if="isAdmin">
       <div class="columns">
@@ -130,15 +130,14 @@ import { authState } from '../auth'
 import { defaultEventParameters } from '../config/defaultEventParameters'
 
 export default {
-  name: 'CampAdmin',
+  name: 'NewEvent',
   components: {
     PageWithBar,
   },
   data() {
     return {
       isAdmin: authState.isAdmin,
-      eventId: '',
-      eventName: '',
+      eventName: `Tábor ${new Date().getFullYear()}`,
       eventParameters: {},
       params: {},
       successfullySaved: false,
@@ -147,8 +146,7 @@ export default {
   methods: {
     saveParams: function () {
       db.collection('events')
-        .doc(this.eventId)
-        .update({
+        .add({
           name: this.eventName,
           parameters: this.params,
         })
@@ -159,28 +157,12 @@ export default {
           }, 5000)
         })
         .catch(function (error) {
-          console.error('Error updating document: ', error)
+          console.error('Error adding document: ', error)
         })
     },
   },
   mounted: function () {
     this.params = { ...defaultEventParameters, ...this.eventParameters }
-  },
-  beforeRouteEnter(to, from, next) {
-    const eventId = to.params.event
-    db.collection('events')
-      .doc(eventId)
-      .get()
-      .then((doc) => {
-        next((vm) => {
-          vm.eventId = eventId
-          vm.eventName = doc.data().name
-          vm.eventParameters = doc.data().parameters
-        })
-      })
-      .catch(() => {
-        next((vm) => (vm.nothing = true))
-      })
   },
 }
 </script>

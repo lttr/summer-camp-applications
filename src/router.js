@@ -5,6 +5,7 @@ import Application from './views/Application.vue'
 import SignIn from './views/SignIn.vue'
 import CampAdmin from './views/CampAdmin.vue'
 import CampParameters from './views/CampParameters.vue'
+import NewEvent from './views/NewEvent.vue'
 import Confirmation from './views/Confirmation.vue'
 import Home from './views/Home.vue'
 import OrgAdmin from './views/OrgAdmin.vue'
@@ -46,6 +47,15 @@ const router = new Router({
       path: '/t/:event/prihlaska-odeslana',
       name: 'Confirmation',
       component: Confirmation,
+    },
+    {
+      path: '/nova-akce',
+      name: 'NewEvent',
+      component: NewEvent,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true,
+      },
     },
     {
       path: '/t/:event/parameters',

@@ -41,6 +41,9 @@
               </tr>
             </tbody>
           </table>
+          <router-link :to="{ name: 'NewEvent' }" class="button is-light">
+            Založit novou
+          </router-link>
         </div>
       </div>
     </section>
