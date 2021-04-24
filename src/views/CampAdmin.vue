@@ -50,6 +50,7 @@
             <th>Údaje odeslány</th>
             <th>Zaplaceno</th>
             <th>Info odesláno</th>
+            <th>Smazat</th>
           </tr>
         </thead>
         <tbody v-if="applications && applications.length > 0">
@@ -111,6 +112,9 @@
                 :checked="application.detailedInfoSent"
                 @change="setDetailedInfoSent(application, $event)"
               />
+            </td>
+            <td>
+              <a @click.prevent="handleDelete(application)">smazat</a>
             </td>
           </tr>
         </tbody>
@@ -190,6 +194,19 @@ export default {
       const birthDate = new Date(year, month, day)
       const today = new Date()
       return (differenceInCalendarDays(today, birthDate) / 365).toFixed(1)
+    },
+    async handleDelete(application) {
+      if (window.confirm('Opravdu smazat?')) {
+        await db
+          .collection('events')
+          .doc(this.eventId)
+          .collection('applications')
+          .doc(application.id)
+          .update({
+            deleted: true,
+          })
+        this.refreshApplications()
+      }
     },
     submitFinalPrice() {
       this.isEditingFinalPrice = false
