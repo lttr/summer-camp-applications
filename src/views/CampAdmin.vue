@@ -16,6 +16,7 @@
           Generovat variabilní symboly
         </button>
         <button class="button is-light" @click="refreshApplications">Znovu načíst</button>
+        <button class="button is-light" @click="exportExcel">Export do Excelu</button>
       </p>
       <table class="table is-narrow">
         <thead>
@@ -139,6 +140,7 @@ import PageWithBar from '../layouts/PageWithBar.vue'
 import PaymentLetter from '../components/PaymentLetter.vue'
 import Modal from '../components/Modal.vue'
 import { authState } from '../auth'
+import zipxel from 'zipcelx'
 
 export default {
   name: 'CampAdmin',
@@ -174,6 +176,52 @@ export default {
       getApplicationsForEvent(this.eventId).then((applications) => {
         this.applications = applications
       })
+    },
+    exportExcel() {
+      const data = this.applications.map((application) => {
+        const a = application.attendee
+        return [
+          { value: a.name, type: 'string' },
+          { value: a.surname, type: 'string' },
+          { value: this.computeAge(a.birthNumber), type: 'number' },
+          { value: a.birthNumber, type: 'string' },
+          { value: a.address, type: 'string' },
+          { value: a.motherName, type: 'string' },
+          { value: a.motherSurname, type: 'string' },
+          { value: a.motherTel, type: 'string' },
+          { value: a.motherEmail, type: 'string' },
+          { value: a.fatherName, type: 'string' },
+          { value: a.fatherSurname, type: 'string' },
+          { value: a.fatherTel, type: 'string' },
+          { value: a.fatherEmail, type: 'string' },
+          { value: application.variableSymbol, type: 'number' },
+          { value: application.finalPrice, type: 'number' },
+        ]
+      })
+      data.unshift([
+        { value: 'Jméno', type: 'string' },
+        { value: 'Příjmení', type: 'string' },
+        { value: 'Věk', type: 'string' },
+        { value: 'Rodné číslo', type: 'string' },
+        { value: 'Adresa', type: 'string' },
+        { value: 'Jméno matky', type: 'string' },
+        { value: 'Příjmení matky', type: 'string' },
+        { value: 'Telefon matky', type: 'string' },
+        { value: 'Email matky', type: 'string' },
+        { value: 'Jméno otce', type: 'string' },
+        { value: 'Příjmení otce', type: 'string' },
+        { value: 'Telefon otce', type: 'string' },
+        { value: 'Email otce', type: 'string' },
+        { value: 'Variabilní symbol', type: 'string' },
+        { value: 'Konečná cena', type: 'string' },
+      ])
+      const config = {
+        filename: `${this.eventName}_export_${new Date().toISOString().substr(0, 10)}`,
+        sheet: {
+          data,
+        },
+      }
+      zipxel(config)
     },
     editFinalPrice() {
       this.isEditingFinalPrice = true

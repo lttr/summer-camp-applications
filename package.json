@@ -23,7 +23,8 @@
     "firebase": "^8.2.1",
     "firebaseui": "^4.7.1",
     "vue": "^2.6.12",
-    "vue-router": "^3.4.7"
+    "vue-router": "^3.4.7",
+    "zipcelx": "^1.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.10",
