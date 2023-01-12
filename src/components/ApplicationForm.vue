@@ -202,7 +202,7 @@
         </div>
       </div>
 
-      <div class="field">
+      <div class="field" v-if="isSaleSiblingsEnabled">
         <label class="checkbox">
           <input
             name="saleSiblings"
@@ -255,6 +255,7 @@ export default {
     price: Number,
     isSaleSiblings: Boolean,
     isSaleGroupMember: Boolean,
+    isSaleSiblingsEnabled: Boolean,
     forPrint: Boolean,
     eventId: String,
   },

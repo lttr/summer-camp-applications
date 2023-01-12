@@ -12,6 +12,7 @@
         <ApplicationForm
           :isSaleSiblings="isSaleSiblings"
           :isSaleGroupMember="isSaleGroupMember"
+          :isSaleSiblingsEnabled="isSaleSiblingsEnabled"
           :price="price"
           :forPrint="forPrint"
           :eventId="eventId"
@@ -64,6 +65,9 @@ export default {
         price -= this.params.slevaClenOddilu
       }
       return price
+    },
+    isSaleSiblingsEnabled() {
+      return Boolean(this.params.slevaSourozenci) && this.params.slevaSourozenci > 0
     },
   },
   beforeRouteEnter(to, from, next) {
